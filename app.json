@@ -1,0 +1,553 @@
+{
+  "id": "com.jilles.rfxcom.2",
+  "sdk": 2,
+  "name": {
+    "en": "Rfxcom.2"
+  },
+  "description": {
+    "en": "Read and writes to Rfxcom devices"
+  },
+  "category": [
+    "climate",
+    "security",
+    "lights",
+    "appliances"
+  ],
+  "version": "0.2.0",
+  "compatibility": ">=1.5.0",
+  "author": {
+    "name": "Jilles Miedema",
+    "email": "nattelip@hotmail.com"
+  },
+  "images": {
+    "large": "./assets/images/large.jpg",
+    "small": "./assets/images/small.jpg"
+  },
+  "drivers": [
+    {
+      "id": "X10",
+      "name": {
+        "en": "X10",
+        "nl": "X10"
+      },
+      "class": "other",
+      "capabilities": [ "alarm_motion", "alarm_night", "onoff", "dim" ],
+      "images": {
+        "large": "drivers/X10/assets/images/large.jpg",
+        "small": "drivers/X10/assets/images/small.jpg"
+      },
+      "pair": [
+
+        {
+          "id": "showoptions"
+
+        },
+        {
+          "id": "choose_slave",
+          "template": "choose_slave"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "name": {
+        "en": "Security Sensor",
+        "nl": "Security Sensor"
+      },
+      "images": {
+        "large": "drivers/security/assets/images/large.jpg",
+        "small": "drivers/security/assets/images/small.jpg"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "alarm_contact",
+        "alarm_motion",
+        "alarm_battery",
+        "alarm_tamper",
+        "alarm_night"
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings",
+            "nl": "Instellingen"
+          },
+          "children": [
+            {
+              "id": "sensorId",
+              "type": "text",
+              "label": {
+                "en": "Sensor id",
+                "nl": "Sensor id"
+              },
+              "value": "0xcb02",
+              "pattern": "0x[a-f0-9]+",
+              "hint": {
+                "en": "Hex formatted unique identifier of sensor. After battery replace this can be changed."
+              }
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "list_sensors",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_sensors"
+          }
+        },
+        {
+          "id": "add_sensors",
+          "template": "add_devices"
+        }
+      ]
+    },
+    {
+      "id": "slave",
+      "name": {
+        "en": "slave",
+        "nl": "slave"
+      },
+      "class": "sensor",
+      "capabilities": [ "measure_temperature", "measure_humidity", "alarm_battery" ],
+      "images": {
+        "large": "drivers/slave/assets/images/large.jpg",
+        "small": "drivers/slave/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "list_sensors",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_sensors"
+          }
+        },
+        {
+          "id": "add_sensors",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings"
+          },
+          "children": [
+            {
+              "id": "absoluteDateTime",
+              "type": "label",
+              "label": {
+                "en": "datetime of last received message"
+              },
+              "value": "",
+              "hint": {
+                "en": "fake "
+              }
+            },
+            {
+              "id": "lastUpdateSensor",
+              "type": "label",
+              "label": {
+                "en": "datetime of last received message"
+              },
+              "value": "",
+              "hint": {
+                "en": "absolute last date and time of received sensor values"
+              }
+            },
+            {
+              "id": "deltaDateTime",
+              "type": "label",
+              "label": {
+                "en": "deltaDateTime"
+              },
+              "value": "deltaDateTime",
+              "hint": {
+                "en": "time between last received sensor message and now"
+              }
+            },
+            {
+              "id": "date",
+              "type": "label",
+              "label": {
+                "en": "date"
+              },
+              "value": "",
+              "hint": {
+                "en": "javascript date "
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Specific settings"
+          },
+          "children": [
+            {
+              "id": "checkbox1",
+              "type": "checkbox",
+              "value": true,
+              "label": {
+                "en": "Checkbox label 1"
+              }
+            },
+            {
+              "id": "dropdown1",
+              "type": "dropdown",
+              "value": "choice2",
+              "label": {
+                "en": "Dropdown label 1"
+              },
+              "values": [
+                {
+                  "id": "choice1",
+                  "label": {
+                    "en": "Dropdown choice 1"
+                  }
+                },
+                {
+                  "id": "choice2",
+                  "label": {
+                    "en": "Dropdown choice 2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TEMPHUM",
+      "name": {
+        "en": "TEMPHUM",
+        "nl": "TEMPHUM"
+      },
+      "class": "sensor",
+      "capabilities": [ "measure_temperature", "measure_humidity", "alarm_battery" ],
+      "images": {
+        "large": "drivers/TEMPHUM/assets/images/large.jpg",
+        "small": "drivers/TEMPHUM/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "list_sensors",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_sensors"
+          }
+        },
+        {
+          "id": "add_sensors",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings"
+          },
+          "children": [
+            {
+              "id": "absoluteDateTime",
+              "type": "label",
+              "label": {
+                "en": "datetime of last received message"
+              },
+              "value": "",
+              "hint": {
+                "en": "fake "
+              }
+            },
+            {
+              "id": "lastUpdateSensor",
+              "type": "label",
+              "label": {
+                "en": "datetime of last received message"
+              },
+              "value": "",
+              "hint": {
+                "en": "absolute last date and time of received sensor values"
+              }
+            },
+            {
+              "id": "deltaDateTime",
+              "type": "label",
+              "label": {
+                "en": "deltaDateTime"
+              },
+              "value": "deltaDateTime",
+              "hint": {
+                "en": "time between last received sensor message and now"
+              }
+            },
+            {
+              "id": "date",
+              "type": "label",
+              "label": {
+                "en": "date"
+              },
+              "value": "",
+              "hint": {
+                "en": "javascript date "
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Specific settings"
+          },
+          "children": [
+            {
+              "id": "checkbox1",
+              "type": "checkbox",
+              "value": true,
+              "label": {
+                "en": "Checkbox label 1"
+              }
+            },
+            {
+              "id": "dropdown1",
+              "type": "dropdown",
+              "value": "choice2",
+              "label": {
+                "en": "Dropdown label 1"
+              },
+              "values": [
+                {
+                  "id": "choice1",
+                  "label": {
+                    "en": "Dropdown choice 1"
+                  }
+                },
+                {
+                  "id": "choice2",
+                  "label": {
+                    "en": "Dropdown choice 2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lan",
+      "name": {
+        "en": "lan",
+        "nl": "lan"
+      },
+      "class": "other",
+      "capabilities": [],
+      "images": {
+        "large": "/drivers/lan/assets/images/large.jpg",
+        "small": "/drivers/lan/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "start"
+        }
+
+      ],
+
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings"
+          },
+          "children": [
+            {
+              "id": "ip",
+              "type": "text",
+              "label": {
+                "en": "ip of transceiver"
+              },
+              "value": "ip",
+              "hint": {
+                "en": "If needed, add an additional description to explain this setting."
+              }
+            },
+            {
+              "id": "rxPort",
+              "type": "text",
+              "label": {
+                "en": "rx port of transceiver"
+              },
+              "value": "rxport",
+              "hint": {
+                "en": "If needed, add an additional description to explain this setting."
+              }
+            },
+            {
+              "id": "txPort",
+              "type": "text",
+              "label": {
+                "en": "tx port of transceiver"
+              },
+              "value": "txport",
+              "hint": {
+                "en": "If needed, add an additional description to explain this setting."
+              }
+            },
+            {
+              "id": "lanType",
+              "type": "text",
+              "label": {
+                "en": "txype of transceiver"
+              },
+              "value": "lanType",
+              "hint": {
+                "en": "If needed, add an additional description to explain this setting."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Specific settings"
+          },
+          "children": [
+            {
+              "id": "checkbox1",
+              "type": "checkbox",
+              "value": true,
+              "label": {
+                "en": "Checkbox label 1"
+              }
+            },
+            {
+              "id": "dropdown1",
+              "type": "dropdown",
+              "value": "choice2",
+              "label": {
+                "en": "Dropdown label 1"
+              },
+              "values": [
+                {
+                  "id": "choice1",
+                  "label": {
+                    "en": "Dropdown choice 1"
+                  }
+                },
+                {
+                  "id": "choice2",
+                  "label": {
+                    "en": "Dropdown choice 2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rfxtrx",
+      "name": {
+        "en": "rfxtrx",
+        "nl": "rfxtrx"
+      },
+      "class": "other",
+      "capabilities": [],
+      "images": {
+        "large": "/drivers/rfxtrx/assets/images/large.jpg",
+        "small": "/drivers/rfxtrx/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "start"
+        }
+
+      ],
+
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings"
+          },
+          "children": [
+            {
+              "id": "ip",
+              "type": "text",
+              "label": {
+                "en": "ip of transceiver"
+              },
+              "value": "ip",
+              "hint": {
+                "en": "If needed, add an additional description to explain this setting."
+              }
+            },
+            {
+              "id": "port",
+              "type": "text",
+              "label": {
+                "en": "port of transceiver"
+              },
+              "value": "port",
+              "hint": {
+                "en": "If needed, add an additional description to explain this setting."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Specific settings"
+          },
+          "children": [
+            {
+              "id": "checkbox1",
+              "type": "checkbox",
+              "value": true,
+              "label": {
+                "en": "Checkbox label 1"
+              }
+            },
+            {
+              "id": "dropdown1",
+              "type": "dropdown",
+              "value": "choice2",
+              "label": {
+                "en": "Dropdown label 1"
+              },
+              "values": [
+                {
+                  "id": "choice1",
+                  "label": {
+                    "en": "Dropdown choice 1"
+                  }
+                },
+                {
+                  "id": "choice2",
+                  "label": {
+                    "en": "Dropdown choice 2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+
+
+
+
+
+
+}

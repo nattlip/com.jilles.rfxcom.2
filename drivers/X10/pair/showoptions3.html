@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+
+    if (document && document.createElement)
+    {
+
+           
+        Homey.on('pairHtml', data =>
+        {
+            let y = document.getElementsByClassName("view-content");
+        
+            z = y[0];
+
+            z.innerHTML = data.sendhtml
+       
+            //http://stackoverflow.com/questions/2592092/executing-script-elements-inserted-with-innerhtml
+            let scriptNode = document.createElement('script');
+            scriptNode.innerHTML = data.sendscript;
+            z.appendChild(scriptNode);
+
+
+
+
+
+
+
+        });
+    }
+    </script>

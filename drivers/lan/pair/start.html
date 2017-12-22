@@ -1,0 +1,134 @@
+
+
+<div id='text'></div>
+
+<script type="text/javascript">
+//Homey.setTitle( __('pair.press_button.title') );
+
+    //Homey.emit('press_button');
+
+    let ip 
+    let rxPort
+    let txPort
+    let lanTypes
+    let lanType
+
+    Homey.on('noserver', function () {
+        document.getElementById('text').innerHTML  = '<h2>First set rfxTrx variables in settings rfxTrx</h2>';
+    });
+
+    Homey.emit('start', { 'foo': 'bar' }, function (err, result) {
+        console.log(result); // result is Started!
+    });
+
+   
+
+
+
+    function save() {
+        console.log("saving")
+        ip = document.getElementById('ip').value;        
+        rxPort = document.getElementById('rxPort').value
+        txPort = document.getElementById('txPort').value
+        lanTypes = document.getElementById('selectLanType')
+        lanType = lanTypes[lanTypes.selectedIndex].value
+
+        console.log("ip  ",ip)
+        console.log("rxPort  ", rxPort)
+        console.log("txPort  ", txPort)
+        console.log("lanType  ", lanType)
+        
+        Homey.addDevice({
+            data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+                id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+            },
+            name: 'My rxLan' ,// the name for this device (optional),
+            settings: {
+                'ip': ip, 'rxPort': rxPort, 'txPort': txPort, 'lanType': lanType  }// initial settings (optional)
+        },
+            function (err, result) {
+                if (err) return console.error(err);
+                Homey.done();
+            }
+
+        );
+        
+    }
+
+    
+
+
+
+</script>
+
+
+<h1>RfxTrx Settings Page</h1>
+<p>set host ip and rx and tx port </p>
+
+
+
+<fieldset>
+    <legend>RfxTrx  variables</legend>
+
+    <div class='field row'>
+        <label for='ip'>ipaddress  lan</label>
+        <input id='ip' type='text' value='' />
+    </div>
+
+    <div class='field row'>
+        <label for='rxPort'>Rx port</label>
+        <input id='rxPort' type='text' value='' />
+    </div>
+
+    <div class='field row'>
+        <label for='txPort'>Tx port</label>
+        <input id='txPort' type='text' value='' />
+    </div>
+
+
+    <div class='field row'>
+        <label for='selectLanTypes'>select LanType</label>
+        <select id="selectLanType" >
+            <option>RxLan</option>
+            <option>TxLan</option>
+            <option>RxTxLan</option>
+        </select>
+    </div>
+
+        <div class='field row'>
+            <label for='test'>servertested</label>
+            <div id='test' style='display: inline-block'></div>
+        </div>
+
+        <div class='field row'>
+            <label for='connected'>serverconnected</label>
+            <div id='connected' style='display: inline-block'></div>
+        </div>
+
+        <div class='field row'>
+            <label for='errormessages'>errormessages</label>
+            <div id='errormessages' style='display: inline-block'></div>
+        </div>
+        <div class='field row'>
+            <label for='messages'>messages</label>
+            <div id='messages' style='display: inline-block'></div>
+        </div>
+        <div class='field row'>
+            <label for='something'>fromApi</label>
+            <div id='something' style='display: inline-block'></div>
+        </div>
+
+
+        <!--<div class='field row'>
+            <label for='test2'>port rfxcom server</label>
+            <textarea id='test2'>textarea sample</textarea>
+        </div>-->
+
+
+</fieldset>
+
+<button class='right' onclick='save()'> Pair  </button>
+
+
+
+

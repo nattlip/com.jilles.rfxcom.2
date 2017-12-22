@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+
+
+<script type="text/javascript">
+
+   
+
+    //http://www.electrictoolbox.com/javascript-add-options-html-select/
+    if (document && document.createElement)
+    {
+      
+
+        function makehtml()
+        {
+
+            let z;
+
+            let x = document.getElementById("text").parentElement.nodeName;
+
+
+
+            let y = document.getElementsByClassName("view-content");
+
+           console.log('onoff this is')
+            
+
+            z = y[0];
+
+            let alphabet = "abcdefghijklmnop".split("");
+            let alphabetCount = 16
+            console.log("hello");
+
+            let houseCodes = document.createElement("select");
+            houseCodes.className = "button";
+            //<option value="" disabled selected style="display:none;">Label</option>
+            let zeroOption = new Option("HouseCode", "0");
+            houseCodes.options[houseCodes.options.length] = zeroOption;
+            for (let i = 1; i <= alphabetCount ; i++)
+            {
+                houseCodes.options[houseCodes.options.length] = new Option(alphabet[i - 1].toUpperCase(), alphabet[i - 1].toUpperCase());
+            }
+            houseCodes.selectedIndex = 0;
+            houseCodes.onchange = function () { saveHouseCode(); };
+            z.appendChild(houseCodes);
+
+
+            let numbers = new Array(16); //create a 16 element array
+
+
+
+            let unitCodes = document.createElement("select");
+            unitCodes.className = "button";
+            let zeroOption2 = new Option("UnitCode", "0");
+            unitCodes.options[unitCodes.options.length] = zeroOption2;
+            for (let i = 1; i <= numbers.length; i++)
+            {
+                unitCodes.options[unitCodes.options.length] = new Option(i.toString(), i.toString());
+            }
+            unitCodes.selectedIndex = 0;
+            unitCodes.onchange = function () { saveUnitCode() };
+            z.appendChild(unitCodes);
+
+
+            //global declaration
+            
+            let deviceTypes = document.createElement("select");
+            deviceTypes.className = "button";
+            let zeroOption3 = new Option("deviceType", "0");
+            deviceTypes.options[deviceTypes.options.length] = zeroOption3;
+            deviceTypes.selectedIndex = 0;
+            deviceTypes.onchange = function () { saveDeviceType() };
+            z.appendChild(deviceTypes);
+
+            let virtualDeviceClasses = document.createElement("select");
+            virtualDeviceClasses.className = "button";
+            let zeroOption4 = new Option("virtualDeviceClass", "0");
+            virtualDeviceClasses.options[virtualDeviceClasses.options.length] = zeroOption4;
+            virtualDeviceClasses.selectedIndex = 0;
+            virtualDeviceClasses.onchange = function () { saveVirtualDeviceClass() };
+            z.appendChild(virtualDeviceClasses);
+
+
+
+            
+                      
+            Homey.on('sendParametersTypes', data => {
+
+                let types = data.sendParametersTypes
+
+                 
+
+                for (let i = 1; i <= types.length; i++) {
+                    deviceTypes.options[deviceTypes.options.length] = new Option(types[i - 1], types[i - 1]);
+                }
+                
+
+                //let deviceTypes = document.createElement("select");
+                //deviceTypes.className = "button";
+                //let zeroOption3 = new Option("deviceType", "0");
+                //deviceTypes.options[deviceTypes.options.length] = zeroOption3;
+                //for (let i = 1; i <= types.length; i++) {
+                //    deviceTypes.options[deviceTypes.options.length] = new Option(types[i - 1], types[i - 1]);
+                //}
+                //deviceTypes.selectedIndex = 0;
+                //deviceTypes.onchange = function () { saveDeviceType() };
+                //z.appendChild(deviceTypes);
+
+                
+
+                
+            })
+
+
+
+
+            Homey.on('sendParametersVirtualDeviceClasses', data => {
+
+                console.log('data.sendParametersVirtualDeviceClasses', data.sendParametersVirtualDeviceClasses )
+
+                let VDClasses = data.sendParametersVirtualDeviceClasses
+
+                //let virtualDeviceClasses = document.createElement("select");
+                //virtualDeviceClasses.className = "button";
+                //let zeroOption4 = new Option("virtualDeviceClass", "0");
+                //virtualDeviceClasses.options[virtualDeviceClasses.options.length] = zeroOption4;
+                for (let i = 1; i <= VDClasses.length; i++) {
+                    virtualDeviceClasses.options[virtualDeviceClasses.options.length] = new Option(VDClasses[i - 1], VDClasses[i - 1]);
+                }
+                //virtualDeviceClasses.selectedIndex = 0;
+                //virtualDeviceClasses.onchange = function () { saveVirtualDeviceClass() };
+                //z.appendChild(virtualDeviceClasses);
+
+
+            })
+
+
+
+
+            function saveHouseCode()
+            {
+
+                Homey.emit('saveHouseCode', { "houseCode": houseCodes[houseCodes.selectedIndex].value });
+            }
+
+            function saveUnitCode()
+            {
+                Homey.emit('saveUnitCode', { "unitCode": unitCodes[unitCodes.selectedIndex].value });
+
+            }
+
+            function saveDeviceType()
+            {
+
+                console.log('saveDeviceType', deviceTypes[deviceTypes.selectedIndex].value )
+                Homey.emit('saveDeviceType', { "deviceType": deviceTypes[deviceTypes.selectedIndex].value });
+
+                //if (deviceTypes[deviceTypes.selectedIndex].value == 'OnOff')
+                //{ Homey.showView("choose_slave") }
+            }
+
+            function saveVirtualDeviceClass()
+            {
+                console.log('saveVirtualDeviceClass', virtualDeviceClasses[virtualDeviceClasses.selectedIndex].value)
+                Homey.emit('saveVirtualDeviceClass', { "virtualDeviceClass": virtualDeviceClasses[virtualDeviceClasses.selectedIndex].value });
+
+                //if (deviceTypes[deviceTypes.selectedIndex].value == 'OnOff')
+                //{ Homey.showView("choose_slave") }
+            }
+
+
+
+            Homey.on('same', function ()
+            {
+               
+                let sameX10Address = document.createElement('div');
+                sameX10Address.id = 'sameX10Address';
+                sameX10Address.innerHTML = 'Already used houseCode and unitCode detected';
+                z.appendChild(sameX10Address);
+            })
+
+            let nextButton = document.createElement('div');
+            nextButton.id = 'next';
+            nextButton.className = 'button';
+            nextButton.innerHTML = 'NEXT >';
+
+
+            nextButton.style.position = 'absolute';
+            nextButton.style.bottom = 0;
+            nextButton.style.right = 0;
+            nextButton.onclick = next;
+            z.appendChild(nextButton);
+
+            function next()
+            {
+                console.log('nextbutton pressed')
+
+
+                let virtualDeviceClass = $('.deviceclasses-list input[name="deviceClass-dummy"]:checked');
+
+                Homey.emit('done', function (err, device)
+                {
+                    if (virtualDeviceClass.length > 0)
+                    {
+                        device.virtualClass = $(virtualDeviceClass).val();
+                        device.virtualCapabilities = $(virtualDeviceClass).data('capabilities').split(',');
+                    }
+
+                    Homey.addDevice(device, function ()
+                    {
+                        Homey.done();
+                    });
+                });
+
+
+                document.body.innerHTML = '<i class="loading fa fa-cog fa-spin"></i>'
+
+
+            }
+
+
+        }
+
+        function callbackhtml(fn)
+        {
+            fn();
+        }
+
+        //Homey.on('pairHtml', data =>
+        //{
+        //    callbackhtml(data)
+
+
+
+        //})
+
+       
+
+
+
+
+        callbackhtml(makehtml);
+
+
+
+
+
+    };  // if
+
+   
+   
+
+
+
+   
+
+   
+
+   
+
+   
+
+
+</script>
+
+<div id='instruction'class="button">Choose the housecode and unitcode of X10 device </div>
+<div id='text'></div>
+
