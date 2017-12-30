@@ -13,7 +13,7 @@
     "lights",
     "appliances"
   ],
-  "version": "0.2.0",
+  "version": "0.2.1",
   "compatibility": ">=1.5.0",
   "author": {
     "name": "Jilles Miedema",
@@ -341,16 +341,16 @@
       ]
     },
     {
-      "id": "lan",
+      "id": "RfxCom",
       "name": {
-        "en": "lan",
-        "nl": "lan"
+        "en": "RfxCom",
+        "nl": "RfxCom"
       },
       "class": "other",
       "capabilities": [],
       "images": {
-        "large": "/drivers/lan/assets/images/large.jpg",
-        "small": "/drivers/lan/assets/images/small.jpg"
+        "large": "/drivers/RfxCom/assets/images/large.jpg",
+        "small": "/drivers/RfxCom/assets/images/small.jpg"
       },
       "pair": [
         {
@@ -400,12 +400,12 @@
               }
             },
             {
-              "id": "lanType",
+              "id": "rfxComType",
               "type": "text",
               "label": {
-                "en": "txype of transceiver"
+                "en": "type of transceiver"
               },
-              "value": "lanType",
+              "value": "RfxComType",
               "hint": {
                 "en": "If needed, add an additional description to explain this setting."
               }
@@ -419,101 +419,11 @@
           },
           "children": [
             {
-              "id": "checkbox1",
+              "id": "processReceivedData",
               "type": "checkbox",
               "value": true,
               "label": {
-                "en": "Checkbox label 1"
-              }
-            },
-            {
-              "id": "dropdown1",
-              "type": "dropdown",
-              "value": "choice2",
-              "label": {
-                "en": "Dropdown label 1"
-              },
-              "values": [
-                {
-                  "id": "choice1",
-                  "label": {
-                    "en": "Dropdown choice 1"
-                  }
-                },
-                {
-                  "id": "choice2",
-                  "label": {
-                    "en": "Dropdown choice 2"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "rfxtrx",
-      "name": {
-        "en": "rfxtrx",
-        "nl": "rfxtrx"
-      },
-      "class": "other",
-      "capabilities": [],
-      "images": {
-        "large": "/drivers/rfxtrx/assets/images/large.jpg",
-        "small": "/drivers/rfxtrx/assets/images/small.jpg"
-      },
-      "pair": [
-        {
-          "id": "start"
-        }
-
-      ],
-
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General settings"
-          },
-          "children": [
-            {
-              "id": "ip",
-              "type": "text",
-              "label": {
-                "en": "ip of transceiver"
-              },
-              "value": "ip",
-              "hint": {
-                "en": "If needed, add an additional description to explain this setting."
-              }
-            },
-            {
-              "id": "port",
-              "type": "text",
-              "label": {
-                "en": "port of transceiver"
-              },
-              "value": "port",
-              "hint": {
-                "en": "If needed, add an additional description to explain this setting."
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Specific settings"
-          },
-          "children": [
-            {
-              "id": "checkbox1",
-              "type": "checkbox",
-              "value": true,
-              "label": {
-                "en": "Checkbox label 1"
+                "en": "process Received Data"
               }
             },
             {
@@ -542,6 +452,8 @@
         }
       ]
     }
+    
+   
   ]
 
 

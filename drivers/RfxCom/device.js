@@ -4,7 +4,7 @@
 
 const masterDevice = require('../../lib/masterdriver/masterdevice.js')
 
-class rfxtrxDevice extends masterDevice {
+class RfxComDevice extends masterDevice {
 
     
    
@@ -12,4 +12,4 @@ class rfxtrxDevice extends masterDevice {
 }
 
 
-module.exports =  rfxtrxDevice;
+module.exports =  RfxComDevice;

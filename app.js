@@ -26,7 +26,7 @@ class rfxcomApp extends Homey.App {
             'RxLan',
             'TxLan',
             'RxTxLan',
-            'rfxtrx'
+            'RfxTrx'
 
         ]
 

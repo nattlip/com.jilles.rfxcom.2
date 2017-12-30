@@ -3,7 +3,7 @@
 
 const Homey = require('homey');
 
-class rfxTrxDriver extends Homey.Driver {
+class RfxComDriver extends Homey.Driver {
 
 
     onPair(socket) {
@@ -24,4 +24,4 @@ class rfxTrxDriver extends Homey.Driver {
 
 }
 
-module.exports =rfxTrxDriver;
+module.exports = RfxComDriver;

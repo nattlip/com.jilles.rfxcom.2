@@ -10,8 +10,8 @@
     let ip 
     let rxPort
     let txPort
-    let lanTypes
-    let lanType
+    let rfxComTypes
+    let rfxComType
 
     Homey.on('noserver', function () {
         document.getElementById('text').innerHTML  = '<h2>First set rfxTrx variables in settings rfxTrx</h2>';
@@ -30,21 +30,21 @@
         ip = document.getElementById('ip').value;        
         rxPort = document.getElementById('rxPort').value
         txPort = document.getElementById('txPort').value
-        lanTypes = document.getElementById('selectLanType')
-        lanType = lanTypes[lanTypes.selectedIndex].value
+        rfxComTypes = document.getElementById('selectRfxComType')
+        rfxComType = rfxComTypes[rfxComTypes.selectedIndex].value
 
         console.log("ip  ",ip)
         console.log("rxPort  ", rxPort)
         console.log("txPort  ", txPort)
-        console.log("lanType  ", lanType)
+        console.log("rfxComType  ", rfxComType)
         
         Homey.addDevice({
             data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
                 id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
             },
-            name: 'My rxLan' ,// the name for this device (optional),
+            name: 'My '+ rfxComType ,// the name for this device (optional),
             settings: {
-                'ip': ip, 'rxPort': rxPort, 'txPort': txPort, 'lanType': lanType  }// initial settings (optional)
+                'ip': ip, 'rxPort': rxPort, 'txPort': txPort, 'rfxComType': rfxComType  }// initial settings (optional)
         },
             function (err, result) {
                 if (err) return console.error(err);
@@ -68,10 +68,10 @@
 
 
 <fieldset>
-    <legend>RfxTrx  variables</legend>
+    <legend>rfxCom  variables</legend>
 
     <div class='field row'>
-        <label for='ip'>ipaddress  lan</label>
+        <label for='ip'>ipaddress  rfxCom</label>
         <input id='ip' type='text' value='' />
     </div>
 
@@ -87,12 +87,13 @@
 
 
     <div class='field row'>
-        <label for='selectLanTypes'>select LanType</label>
-        <select id="selectLanType" >
+        <label for='selectRfxComType'>select rfxComType</label>
+        <select id="selectRfxComType">
             <option>RxLan</option>
             <option>TxLan</option>
             <option>RxTxLan</option>
-        </select>
+            <option>RfxTrx</option>
+</select>
     </div>
 
         <div class='field row'>
