@@ -13,5 +13,6 @@ Read and writes to Rfxcom devices
 30-12-2017 combined drivers lan rfxcom devices and rfxtrx devices in driver rfxcom
            reporting data can be stopped via settings in rfxcom devices
            visonic sensor devices  door and movement  and contact are available  and report their status
-		   x10 works on lan and rfxtrx sending on/off commands possible rfxtrx and lan , dim  and bright also on lan
+		   x10 ms13e on/off and dim works on lan and rfxtrx sending on/off commands possible rfxtrx and lan , dim  and bright also on lan andrfxtrx
+		   each RfxCom device can be stopped receiving an sending data via settings
 

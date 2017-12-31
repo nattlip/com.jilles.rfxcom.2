@@ -427,6 +427,14 @@
               }
             },
             {
+              "id": "sendData",
+              "type": "checkbox",
+              "value": true,
+              "label": {
+                "en": "send Data"
+              }
+            },
+            {
               "id": "dropdown1",
               "type": "dropdown",
               "value": "choice2",
