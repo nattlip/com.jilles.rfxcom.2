@@ -13,6 +13,36 @@
     let rfxComTypes
     let rfxComType
 
+    let RfxComdeviceTypes = document.getElementById('selectRfxComType');
+    RfxComdeviceTypes.className = "button";
+    let zeroOption3 = new Option("deviceType", "0");
+    RfxComdeviceTypes.options[RfxComdeviceTypes.options.length] = zeroOption3;
+    RfxComdeviceTypes.selectedIndex = 0;
+    
+    
+    Homey.on('sendParametersTypes', data => {
+
+        let types = data.sendParametersTypes
+
+
+
+        for (let i = 1; i <= types.length; i++) {
+            RfxComdeviceTypes.options[RfxComdeviceTypes.options.length] = new Option(types[i - 1], types[i - 1]);
+        }
+
+        
+    })
+
+
+
+
+
+
+
+
+
+
+
     Homey.on('noserver', function () {
         document.getElementById('text').innerHTML  = '<h2>First set rfxTrx variables in settings rfxTrx</h2>';
     });
@@ -89,10 +119,8 @@
     <div class='field row'>
         <label for='selectRfxComType'>select rfxComType</label>
         <select id="selectRfxComType">
-            <option>RxLan</option>
-            <option>TxLan</option>
-            <option>RxTxLan</option>
-            <option>RfxTrx</option>
+           // here were options
+
 </select>
     </div>
 

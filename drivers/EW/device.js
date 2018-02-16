@@ -4,7 +4,7 @@
 
 const masterDevice = require('../../lib/masterdriver/masterdevice.js')
 
-class securityDevice extends masterDevice {
+class EWDevice extends masterDevice {
 
     
    
@@ -12,4 +12,4 @@ class securityDevice extends masterDevice {
 }
 
 
-module.exports =  securityDevice;
+module.exports =  EWDevice;

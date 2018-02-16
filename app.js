@@ -6,19 +6,29 @@ class rfxcomApp extends Homey.App {
 
     onInit() {
 
-        this.X10LanSignal = require('./lib/rfxcom/lan/X10decoding.js');
-
+        this.X10LanSignal = require('./lib/rfxcom/lan/X10decoding.js');  // is needed as Homey.app.X10LanSignal
+        this.EWSignal = require('./lib/rfxcom/easywave/easywaveDecoding.js');
         this.log(`${this.constructor.name} is running...`);
 
         //my definitions
         this.app = 'Rfxcom'
 
-        this.RxTxTypesMap = {
-            "1": "RxLan",
-            "2": "RxTxLan",
-            "3": "TxLan",
-            "4": "RfxTrx"
-        }
+
+        this.EWTypesMapArray = [
+           [ 1 ,`rollerShutters`]
+        ]
+
+
+        this.RxTxTypesMapArray = [
+            [1, "RxLan"],
+            [2, "RxTxLan"],
+            [3, "TxLan"],
+            [4, "RfxTrx"],
+            [5, "EldatPi"]
+        ]
+
+
+        this.RxTxTypesMap = new Map(this.RxTxTypesMapArray)
 
 
         this.RxTxTypes = [
@@ -26,13 +36,21 @@ class rfxcomApp extends Homey.App {
             'RxLan',
             'TxLan',
             'RxTxLan',
-            'RfxTrx'
-
+            'RfxTrx',
+            "EldatPi"
         ]
 
+        // type
+        this.oregonDeviceArray = 
+            [
+            [1,`T`],
+            [2,`TH`],
+            [3, `THB`],
+            [4, `U`],
+            [5,`R`]
+             ]
 
-
-
+        this.oregonDeviceMap = new Map(this.oregonDeviceArray)
 
         this.RxTx = {
             id: null,  // its ip for now must become mac 
@@ -42,6 +60,7 @@ class rfxcomApp extends Homey.App {
             tx: null,
         }
 
+        // type
         this.X10DeviceArray = 
             [
               [ 1, 'MS13E' ],
@@ -96,9 +115,33 @@ class rfxcomApp extends Homey.App {
                 rx: [], // { type: null, index: null } of rxtx where signals are received from for this device  the device id of a rxtx is its ip
                 tx: [], // { type: null, index: null } of rxtx where franes are send to for this device               
                 capabilities: [],
-                capability: {},  // onoff dim temp etc as json  object of capabilities
-                icon: null
+                capability: {},                   
+                    icon: null,
+                    settings: null
             },
+
+            "EW":
+            {
+                data: {
+                    id: null,             // homey id 
+                    houseCode: null,
+                    unitCode: null,
+                    protocol: 'EW', //  visonic , x10 , oregon , etc klika elro etc ndlers 
+                    type: "EW"
+                },
+                driver: `EW`,
+                name: null,    // type of device eg visonicdoorsensor
+                rx: [], //  //{ type: null, index: null }of rxtx where signals are received from for this device
+                tx: [], // { type: null, index: null } of rxtx where franes are send to for this device               
+                capabilities: ["windowcoverings_state"],
+                   
+                capability: {
+                    windowcoverings_state: false
+                   },   // onoff dim temp etc as json  object of capabilities
+                icon: null,
+                settings: null
+            },
+
 
             "MS13E":
             {
@@ -118,7 +161,8 @@ class rfxcomApp extends Homey.App {
                     alarm_motion: false,
                     alarm_night : false
                 },   // onoff dim temp etc as json  object of capabilities
-                icon: null
+                icon: null,
+                settings: null
             },
 
             "OnOff":
@@ -137,7 +181,8 @@ class rfxcomApp extends Homey.App {
                 tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
                 capabilities: ['onoff'],
                 capability: { onoff : false}   // onoff dim temp etc as json  object of capabilities
-                , icon: null
+                , icon: null,
+                settings: null
             },
 
             "Dim":
@@ -149,8 +194,7 @@ class rfxcomApp extends Homey.App {
                     protocol: 'X10', //  visonic , x10 , oregon , etc klika elro etc ndlers 
                     type: "Dim",      // type of device eg visonicdoorsensor 
                 },
-                driver: "X10",
-                    
+                driver: "X10",                    
                 name: null,
                 rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
                 tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
@@ -159,7 +203,8 @@ class rfxcomApp extends Homey.App {
                     onoff: false,
                     dim: 0
                 },                // onoff dim temp etc as json  object of capabilities
-                 icon: null
+                icon: null,
+                settings: null
             },
 
 
@@ -177,8 +222,7 @@ class rfxcomApp extends Homey.App {
                     protocol: `visonic`,
                     type: "visonicMotionSensor",
                 },  
-                driver: `security`,
-                  // eg security  ms14e visonic  address
+                driver: `security`, // eg security  ms14e visonic  address
                 name: null,
                 rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
                 tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
@@ -188,7 +232,8 @@ class rfxcomApp extends Homey.App {
                     alarm_tamper: false,
                     alarm_battery: false
                 }  , // onoff dim temp etc as json
-                 icon: null
+                icon: null,
+                settings: null
             },
 
             "visonicDoorSensor": {
@@ -210,7 +255,8 @@ class rfxcomApp extends Homey.App {
                     alarm_tamper: false,
                     alarm_battery: false
                 }   // onoff dim temp etc as json
-                , icon: null
+                , icon: null,
+                settings: null
             },
 
             "security": {
@@ -221,9 +267,9 @@ class rfxcomApp extends Homey.App {
                     protocol: `visonic`,
                     type: `visonicDoorSensor`,
                 },   // eg security  ms14e visonic  address
+                driver: `security`,
                 rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
                 tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
-                driver: `security`,
                 name: null,
                 capabilities: ['alarm_contact', 'alarm_tamper', 'alarm_battery'],
                 capability: {
@@ -231,10 +277,118 @@ class rfxcomApp extends Homey.App {
                     alarm_tamper: false,
                     alarm_battery: false
                 }   // onoff dim temp etc as json
-                , icon: null
-            }
+                , icon: null,
+                settings: null
+            },
 
-
+              "THB": {
+                data: {
+                    id: null,
+                    houseCode: null,
+                    unitCode: null,
+                    protocol: `oregon`,
+                    type: `THB`,
+                },
+                driver: `oregon`,
+                // eg security  ms14e visonic  address
+                rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
+                tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
+                name: null,
+                  capabilities: ["measure_temperature", "measure_humidity", "measure_pressure", "measure_battery"],
+                  capability: {
+                      measure_temperature: 0,
+                      measure_humidity: 0,
+                      measure_pressure: 0,
+                      measure_battery: 0  // onoff dim temp etc as json  object of capabilities
+                  },
+                  icon: null,
+                  settings: null
+            },
+            "TH": {
+                data: {
+                    id: null,
+                    houseCode: null,
+                    unitCode: null,
+                    protocol: `oregon`,
+                    type: `TH`,
+                },
+                driver: `oregon`,
+                // eg security  ms14e visonic  address
+                rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
+                tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
+                name: null,
+                capabilities: ["measure_temperature", "measure_humidity", "measure_battery"],
+                capability: {
+                    measure_temperature: 0,
+                    measure_humidity: 0,
+                    measure_battery: 0  // onoff dim temp etc as json  object of capabilities
+                },
+                icon: null,
+                settings: null
+            },
+            "T": {
+                data: {
+                    id: null,
+                    houseCode: null,
+                    unitCode: null,
+                    protocol: `oregon`,
+                    type: `T`,
+                },
+                driver: `oregon`,
+                // eg security  ms14e visonic  address
+                rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
+                tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
+                name: null,
+                capabilities: ["measure_temperature","measure_battery"],
+                capability: {
+                    measure_temperature: 0,
+                    measure_battery: 0  // onoff dim temp etc as json  object of capabilities
+                },
+                icon: null,
+                settings: null
+            },
+            "U": {
+                data: {
+                    id: null,
+                    houseCode: null,
+                    unitCode: null,
+                    protocol: `oregon`,
+                    type: `U`,
+                },
+                driver: `oregon`,
+                // eg security  ms14e visonic  address
+                rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
+                tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
+                name: null,
+                capabilities: ["measure_ultraviolet", "measure_battery"],
+                capability: {
+                    measure_ultraviolet: 0,
+                    measure_battery: 0  // onoff dim temp etc as json  object of capabilities
+                },
+                icon: null,
+                settings: null
+            },
+            "R": {
+                data: {
+                    id: null,
+                    houseCode: null,
+                    unitCode: null,
+                    protocol: `oregon`,
+                    type: `R`,
+                },
+                driver: `oregon`,
+                // eg security  ms14e visonic  address
+                rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
+                tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
+                name: null,
+                capabilities: ["measure_rain", "measure_battery"],
+                capability: {
+                    measure_rain: 0,
+                    measure_battery: 0  // onoff dim temp etc as json  object of capabilities
+                },
+                icon: null,
+                settings: null
+            },
         }
 
 

@@ -23,7 +23,91 @@
     "large": "./assets/images/large.jpg",
     "small": "./assets/images/small.jpg"
   },
+
+  "capabilities": {
+    "measure_comfort": {
+      "type": "string",
+      "title": {
+        "en": "Comfort",
+        "nl": "Comfort"
+      },
+      "getable": true,
+      "setable": false
+    },
+
+    "measure_forecast": {
+      "type": "string",
+      "title": {
+        "en": "Forecast",
+        "nl": "Voorspelling"
+      },
+      "getable": true,
+      "setable": false
+    }
+  },
+
+
   "drivers": [
+    {
+      "id": "EW",
+      "name": {
+        "en": "EW",
+        "nl": "EW"
+      },
+      "class": "other",
+      "capabilities": [
+        "windowcoverings_state",
+        "windowcoverings_tilt_up",
+        "windowcoverings_tilt_down",
+        "windowcoverings_tilt_set",
+        "alarm_motion",
+        "alarm_night",
+        "onoff",
+        "dim"
+      ],
+      "images": {
+        "large": "drivers/EW/assets/images/large.png",
+        "small": "drivers/EW/assets/images/small.png"
+      },
+      "pair": [
+        {
+          "id": "first",
+          "navigation": {
+            "next": "second"
+          }
+        },
+        {
+          "id": "second",
+          "navigation": {
+            "next": "third"
+          }
+        },
+        {
+          "id": "third"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Device Information"
+          },
+          "children": [
+            {
+              "id": "id",
+              "type": "label",
+              "label": {
+                "en": "device id"
+              },
+              "value": "",
+              "hint": {
+                "en": "device id "
+              }
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "X10",
       "name": {
@@ -49,14 +133,10 @@
       ]
     },
     {
-      "id": "security",
+      "id": "slave",
       "name": {
-        "en": "Security Sensor",
-        "nl": "Security Sensor"
-      },
-      "images": {
-        "large": "drivers/security/assets/images/large.jpg",
-        "small": "drivers/security/assets/images/small.jpg"
+        "en": "slave",
+        "nl": "slave"
       },
       "class": "sensor",
       "capabilities": [
@@ -64,54 +144,11 @@
         "alarm_motion",
         "alarm_battery",
         "alarm_tamper",
-        "alarm_night"
+        "alarm_night",
+        "measure_temperature",
+        "measure_humidity",
+        "alarm_battery"
       ],
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General settings",
-            "nl": "Instellingen"
-          },
-          "children": [
-            {
-              "id": "sensorId",
-              "type": "text",
-              "label": {
-                "en": "Sensor id",
-                "nl": "Sensor id"
-              },
-              "value": "0xcb02",
-              "pattern": "0x[a-f0-9]+",
-              "hint": {
-                "en": "Hex formatted unique identifier of sensor. After battery replace this can be changed."
-              }
-            }
-          ]
-        }
-      ],
-      "pair": [
-        {
-          "id": "list_sensors",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_sensors"
-          }
-        },
-        {
-          "id": "add_sensors",
-          "template": "add_devices"
-        }
-      ]
-    },
-    {
-      "id": "slave",
-      "name": {
-        "en": "slave",
-        "nl": "slave"
-      },
-      "class": "sensor",
-      "capabilities": [ "measure_temperature", "measure_humidity", "alarm_battery" ],
       "images": {
         "large": "drivers/slave/assets/images/large.jpg",
         "small": "drivers/slave/assets/images/small.jpg"
@@ -133,6 +170,25 @@
         {
           "type": "group",
           "label": {
+            "en": "Device Information"
+          },
+          "children": [
+            {
+              "id": "id",
+              "type": "label",
+              "label": {
+                "en": "device id"
+              },
+              "value": "",
+              "hint": {
+                "en": "device id "
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "General settings"
           },
           "children": [
@@ -140,18 +196,18 @@
               "id": "absoluteDateTime",
               "type": "label",
               "label": {
-                "en": "datetime of last received message"
+                "en": "datetime of last received message "
               },
               "value": "",
               "hint": {
-                "en": "fake "
+                "en": "used to check deltaDateTime "
               }
             },
             {
               "id": "lastUpdateSensor",
               "type": "label",
               "label": {
-                "en": "datetime of last received message"
+                "en": "human datetimeof last received message"
               },
               "value": "",
               "hint": {
@@ -170,14 +226,14 @@
               }
             },
             {
-              "id": "date",
+              "id": "lastCheckDateTime",
               "type": "label",
               "label": {
-                "en": "date"
+                "en": "datetime last check "
               },
               "value": "",
               "hint": {
-                "en": "javascript date "
+                "en": "time last checked update sensor  "
               }
             }
           ]
@@ -229,7 +285,7 @@
         "nl": "TEMPHUM"
       },
       "class": "sensor",
-      "capabilities": [ "measure_temperature", "measure_humidity", "alarm_battery" ],
+      "capabilities": [ "measure_temperature", "measure_humidity", "measure_battery" ],
       "images": {
         "large": "drivers/TEMPHUM/assets/images/large.jpg",
         "small": "drivers/TEMPHUM/assets/images/small.jpg"
@@ -262,7 +318,7 @@
               },
               "value": "",
               "hint": {
-                "en": "fake "
+                "en": "used to calculate deltaDatetime"
               }
             },
             {
@@ -288,14 +344,151 @@
               }
             },
             {
-              "id": "date",
+              "id": "lastCheckDateTime",
               "type": "label",
               "label": {
-                "en": "date"
+                "en": "datetime last check "
               },
               "value": "",
               "hint": {
-                "en": "javascript date "
+                "en": "time last checked update sensor  "
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Specific settings"
+          },
+          "children": [
+            {
+              "id": "checkbox1",
+              "type": "checkbox",
+              "value": true,
+              "label": {
+                "en": "Checkbox label 1"
+              }
+            },
+            {
+              "id": "dropdown1",
+              "type": "dropdown",
+              "value": "choice2",
+              "label": {
+                "en": "Dropdown label 1"
+              },
+              "values": [
+                {
+                  "id": "choice1",
+                  "label": {
+                    "en": "Dropdown choice 1"
+                  }
+                },
+                {
+                  "id": "choice2",
+                  "label": {
+                    "en": "Dropdown choice 2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oregon",
+      "name": {
+        "en": "oregon",
+        "nl": "oregon"
+      },
+      "class": "sensor",
+      "capabilities": [ "meter_rain", "measure_temperature", "measure_humidity", "measure_rain", "measure_pressure", "measure_ultraviolet", "measure_battery" ],
+      "images": {
+        "large": "drivers/oregon/assets/images/large.jpg",
+        "small": "drivers/oregon/assets/images/small.jpg"
+      },
+      "pair": [
+        {
+          "id": "list_circles",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_sensors"
+          }
+        },
+        {
+          "id": "add_sensors",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Device Information"
+          },
+          "children": [
+            {
+              "id": "id",
+              "type": "label",
+              "label": {
+                "en": "device id"
+              },
+              "value": "",
+              "hint": {
+                "en": "device id "
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Update Information "
+          },
+          "children": [
+            {
+              "id": "absoluteDateTime",
+              "type": "label",
+              "label": {
+                "en": "datetime of last received message"
+              },
+              "value": "",
+              "hint": {
+                "en": "used to calculate deltaDatetime"
+              }
+            },
+            {
+              "id": "lastUpdateSensor",
+              "type": "label",
+              "label": {
+                "en": "datetime of last received message"
+              },
+              "value": "",
+              "hint": {
+                "en": "absolute last date and time of received sensor values"
+              }
+            },
+            {
+              "id": "deltaDateTime",
+              "type": "label",
+              "label": {
+                "en": "deltaDateTime"
+              },
+              "value": "deltaDateTime",
+              "hint": {
+                "en": "time between last received sensor message and now"
+              }
+            },
+            {
+              "id": "lastCheckDateTime",
+              "type": "label",
+              "label": {
+                "en": "datetime last check "
+              },
+              "value": "",
+              "hint": {
+                "en": "time last checked update sensor  "
               }
             }
           ]
@@ -460,8 +653,8 @@
         }
       ]
     }
-    
-   
+
+
   ]
 
 

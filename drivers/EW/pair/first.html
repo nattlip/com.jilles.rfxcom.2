@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+
+<script type="text/javascript">
+    //Homey.setTitle( __('pair.press_button.title') );
+
+    //Homey.emit('press_button');
+
+    let next = () => {
+        Homey.nextView()
+    }
+
+
+    // https://developer.athom.com/docs/apps/tutorial-Drivers-Pairing-Custom%20Views.html
+
+    function sendPairCommand() {
+
+        //todo make map added  devices
+        //todo signal with next channel  Transmission code 01 etc hex 64
+        // if react is ok then pair
+
+
+        Homey.emit('sendCommand', { "command": 'up' });
+
+
+
+        //Homey.addDevice({
+        //    // the data object should contain only unique properties for the device. So a MAC address is good, an IP address is bad (can change over time)
+        //    data: {
+        //        id: 'ab:cd:ef'
+        //    },
+
+        //    // the name for this device,
+        //    name: 'My Device',
+
+        //    // initial settings (optional)
+        //    settings: { 'foo': 'bar' },
+
+        //    // initial store
+        //    store: { 'x': 'y' }
+        //}, function (err, result) {
+        //    if (err) return Homey.alert(err);
+        //    Homey.done();
+        //});
+
+        Homey.on('pairAnswer', data => {
+
+            let errorMessage = document.getElementById('text5')
+
+            console.log('answer entered')
+
+            if (data.answer = 'OK') {
+
+                console.log('answer entered if ok')
+
+                errorMessage.innerHTML = 'Received OK from Easywave transceiver';
+
+                Homey.emit('done', function (err, device) {
+                   
+                    Homey.addDevice(device, function () {
+                        Homey.done();
+                    });
+                });
+
+                
+
+            }
+            else {
+
+                
+                errorMessage.innerHTML = 'Error from Rx09 try to pair again ';
+                
+
+                
+            }
+        })
+
+    }
+
+
+
+
+
+
+
+</script>
+
+<div id='text'>this is the first view</div>
+
+<div id='text1'>Set the rollershutter to be paired in pairing mode </div>
+
+<div id='text2'>Press the stop button on the to be learned remote until rollershutter goes up and down as confirmation</div>
+
+<div id='text3'>Within 5 sec. Press short the up and then the down button of the to be learned rollershutter . he should go up and down as confirmation</div>
+
+<div id='text4'>Within 5 sec. Press then the pair button , the rollershutter should go up and down as confirmation </div>
+
+<div id='text5'></div>
+
+
+<button class='right' onclick='sendPairCommand()'>Send  PAIR command to real easywaveDevice  </button>
+
+
+<<!--button class='right' onclick='next()'> next view  </button>-->

@@ -170,7 +170,7 @@ makehtml();
         this.homeyDevices = []// Homey.app.homeyDevices
         this.devicesData = [];  // from drivers
         this.heardList = [];    // to be paired is list of devoicesdata. otherr device properties doesn matter
-        this.devices = this.getDevices()
+        this.devices = this.getDevices()  // array
         //this.log('devices from getdevices  ', util.inspect(this.devices,true,null))
         this.log(' driver id  ', this.id)
         this.devicesData = []
