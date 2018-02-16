@@ -65,7 +65,7 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
            
 
         // temp for testing
-         channel = '01'
+        // channel = '01'
                    
 
           // Homey.emit('sendUpCommand', { "command": 'up' });
