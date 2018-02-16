@@ -13,7 +13,7 @@
     "lights",
     "appliances"
   ],
-  "version": "0.2.1",
+  "version": "0.2.2",
   "compatibility": ">=1.5.0",
   "author": {
     "name": "Jilles Miedema",
