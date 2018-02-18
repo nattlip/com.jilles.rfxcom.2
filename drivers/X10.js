@@ -173,13 +173,13 @@ makehtml();
         this.devices = this.getDevices()  // array
         //this.log('devices from getdevices  ', util.inspect(this.devices,true,null))
         this.log(' driver id  ', this.id)
-        this.devicesData = []
+        
 
-        for (var device of this.devices) {
+        for (let device of this.devices) {
             this.devicesData.push(device.getData())
         }
 
-
+        this.log(`devices data ${util.inspect(this.devicesData)}`)
 
 
         

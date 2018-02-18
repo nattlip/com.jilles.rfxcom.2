@@ -2,6 +2,18 @@
 Thumbs.db
 ehthumbs.db
 
+.gitattributes
+.gitignore
+package-lock.json
+
+
+
+
+
+
+
+
+
 # Folder config file
 Desktop.ini
 

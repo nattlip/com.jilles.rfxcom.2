@@ -67,22 +67,56 @@
         console.log("rxPort  ", rxPort)
         console.log("txPort  ", txPort)
         console.log("rfxComType  ", rfxComType)
-        
-        Homey.addDevice({
-            data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
-                id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
-            },
-            name: 'My '+ rfxComType ,// the name for this device (optional),
-            settings: {
-                'ip': ip, 'rxPort': rxPort, 'txPort': txPort, 'rfxComType': rfxComType  }// initial settings (optional)
-        },
-            function (err, result) {
-                if (err) return console.error(err);
-                Homey.done();
-            }
 
-        );
-        
+        if (rfxComType !== "EldatPi") {
+            Homey.addDevice({
+                data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+                    id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                },
+                name: 'My ' + rfxComType,// the name for this device (optional),
+                settings: {
+                    'ip': ip,
+                    'rxPort': rxPort,
+                    'txPort': txPort,
+                    'rfxComType': rfxComType
+                }// initial settings (optional)
+            },
+                function (err, result) {
+                    if (err) return console.error(err);
+                    Homey.done();
+                }
+
+            );
+        }
+        else {
+            console.log("rfxComType interedc if eldat  ", rfxComType)
+            Homey.addDevice({
+                
+                data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+                    id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                },
+                name: 'My ' + rfxComType,// the name for this device (optional),
+                settings: {
+                    'ip': ip,
+                    'rxPort': rxPort,
+                    'txPort': txPort,
+                    'rfxComType': rfxComType,
+                    'number of channels': 64,
+                    'address' : 0x09ab
+                 }// initial settings (optional)
+            },
+                function (err, result) {
+                    if (err) return console.error(err);
+                    Homey.done();
+                }
+
+            );
+        }
+
+
+
+
+
     }
 
     

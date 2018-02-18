@@ -1,10 +1,99 @@
 <!DOCTYPE html>
 
 
+
+
+<div id='text'>this is the first view</div>
+
+<div id='text1'>Set the rollershutter to be paired in pairing mode </div>
+
+<div id='text2'>Press the stop button on the to be learned remote until rollershutter goes up and down as confirmation</div>
+
+<div id='text3'>Within 5 sec. Press short the up and then the down button of the to be learned rollershutter . he should go up and down as confirmation</div>
+
+<div id='text4'>Within 5 sec. Press then the pair button , the rollershutter should go up and down as confirmation </div>
+
+<div id='text5'></div>
+
+</br>
+
+
+<div class='field row'>
+    <label for='selectChannel'>select channel</label>
+    <select id="selectChannel">
+        // here were options
+
+    </select>
+</div>
+
+
+
+
+</br>
+
+<button class='right' onclick='sendPairCommand()'>Send  PAIR command to real easywaveDevice  </button>
+
+
+<<!--button class='right' onclick='next()'> next view  </button>-->
+
+
+
 <script type="text/javascript">
     //Homey.setTitle( __('pair.press_button.title') );
 
     //Homey.emit('press_button');
+
+
+    let errorMessage = document.getElementById('text5')
+
+    let hexNumbers = new Array(64); //create a 16 element array
+
+
+    for (var i = 0; i < hexNumbers.length; i++) {
+
+        let value = parseInt(i, 10).toString(16)
+        if (value.length == 1) { value = `0${value}` }
+
+        hexNumbers[i] = value
+
+    }
+
+
+    let Channels = document.getElementById('selectChannel');
+    Channels.className = "button";
+    let zeroOption3 = new Option("channel", "0");
+    Channels.options[Channels.options.length] = zeroOption3;
+    Channels.selectedIndex = 0;
+    Channels.onchange = function () { saveChannel() };
+
+    for (let i = 1; i <= hexNumbers.length; i++) {
+        Channels.options[Channels.options.length] = new Option(hexNumbers[i - 1], hexNumbers[i - 1]);
+    }
+
+
+    function saveChannel() {
+
+        Homey.emit('saveChannel', { "channel": Channels[Channels.selectedIndex].value });
+        console.log('savechannel  channel ', Channels[Channels.selectedIndex].value)
+
+
+    }
+
+
+    Homey.on('same',  (data) => {
+
+        errorMessage.innerHTML = 'Channel Already used , choose other';
+
+    })
+
+    Homey.on('notSame',  (data) => {
+
+        errorMessage.innerHTML = 'Channel Not used';
+
+    })
+
+
+
 
     let next = () => {
         Homey.nextView()
@@ -23,7 +112,7 @@
         Homey.emit('sendCommand', { "command": 'up' });
 
 
-
+    }
         //Homey.addDevice({
         //    // the data object should contain only unique properties for the device. So a MAC address is good, an IP address is bad (can change over time)
         //    data: {
@@ -45,7 +134,7 @@
 
         Homey.on('pairAnswer', data => {
 
-            let errorMessage = document.getElementById('text5')
+           
 
             console.log('answer entered')
 
@@ -56,26 +145,39 @@
                 errorMessage.innerHTML = 'Received OK from Easywave transceiver';
 
                 Homey.emit('done', function (err, device) {
-                   
+
                     Homey.addDevice(device, function () {
                         Homey.done();
                     });
                 });
 
-                
+
 
             }
             else {
 
-                
-                errorMessage.innerHTML = 'Error from Rx09 try to pair again ';
-                
 
-                
+                errorMessage.innerHTML = 'Error from Rx09 try to pair again ';
+
+
+
             }
         })
 
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
 
 
 
@@ -84,21 +186,3 @@
 
 
 </script>
-
-<div id='text'>this is the first view</div>
-
-<div id='text1'>Set the rollershutter to be paired in pairing mode </div>
-
-<div id='text2'>Press the stop button on the to be learned remote until rollershutter goes up and down as confirmation</div>
-
-<div id='text3'>Within 5 sec. Press short the up and then the down button of the to be learned rollershutter . he should go up and down as confirmation</div>
-
-<div id='text4'>Within 5 sec. Press then the pair button , the rollershutter should go up and down as confirmation </div>
-
-<div id='text5'></div>
-
-
-<button class='right' onclick='sendPairCommand()'>Send  PAIR command to real easywaveDevice  </button>
-
-
-<<!--button class='right' onclick='next()'> next view  </button>-->

@@ -23,7 +23,7 @@ Read and writes to Rfxcom devices
             added Eldat Rx09 Easywave usb stick which receives Easywave Rf on a pi 3 as virtual rfxcom device
 			
 
-			to make the pi usbserial driver work with the Aldat Rx09 usbstick see
+			to make the pi usbserial driver work with the Eldat Rx09 usbstick see
 
 			https://raspberrypi.stackexchange.com/questions/78908/eldat-easywave-usbserial-device-not-detected/79020#79020
 
@@ -31,4 +31,4 @@ Read and writes to Rfxcom devices
 
 			https://github.com/nattlip/pi.node.serial2net
 
-			added Faak rollershutter Easywave device working with the Altron Rx09
+			added Faak rollershutter Easywave device working with the Eldat Rx09
