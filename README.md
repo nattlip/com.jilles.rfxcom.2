@@ -35,3 +35,4 @@ Read and writes to Rfxcom devices
 
 27-02-2018  deleted temphum driver incorperated it in overall oregon driver
             added supprt for oregon temp , rain  and uv devices, so functionalitxý is same as orgeon app
+			added flow trigger for received X10 on off commands
