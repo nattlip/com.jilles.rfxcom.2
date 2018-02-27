@@ -13,7 +13,7 @@
     "lights",
     "appliances"
   ],
-  "version": "0.2.2",
+  "version": "0.2.3",
   "compatibility": ">=1.5.0",
   "author": {
     "name": "Jilles Miedema",
@@ -279,131 +279,13 @@
       ]
     },
     {
-      "id": "TEMPHUM",
-      "name": {
-        "en": "TEMPHUM",
-        "nl": "TEMPHUM"
-      },
-      "class": "sensor",
-      "capabilities": [ "measure_temperature", "measure_humidity", "measure_battery" ],
-      "images": {
-        "large": "drivers/TEMPHUM/assets/images/large.jpg",
-        "small": "drivers/TEMPHUM/assets/images/small.jpg"
-      },
-      "pair": [
-        {
-          "id": "list_sensors",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_sensors"
-          }
-        },
-        {
-          "id": "add_sensors",
-          "template": "add_devices"
-        }
-      ],
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General settings"
-          },
-          "children": [
-            {
-              "id": "absoluteDateTime",
-              "type": "label",
-              "label": {
-                "en": "datetime of last received message"
-              },
-              "value": "",
-              "hint": {
-                "en": "used to calculate deltaDatetime"
-              }
-            },
-            {
-              "id": "lastUpdateSensor",
-              "type": "label",
-              "label": {
-                "en": "datetime of last received message"
-              },
-              "value": "",
-              "hint": {
-                "en": "absolute last date and time of received sensor values"
-              }
-            },
-            {
-              "id": "deltaDateTime",
-              "type": "label",
-              "label": {
-                "en": "deltaDateTime"
-              },
-              "value": "deltaDateTime",
-              "hint": {
-                "en": "time between last received sensor message and now"
-              }
-            },
-            {
-              "id": "lastCheckDateTime",
-              "type": "label",
-              "label": {
-                "en": "datetime last check "
-              },
-              "value": "",
-              "hint": {
-                "en": "time last checked update sensor  "
-              }
-            }
-          ]
-        },
-        {
-          "type": "group",
-          "label": {
-            "en": "Specific settings"
-          },
-          "children": [
-            {
-              "id": "checkbox1",
-              "type": "checkbox",
-              "value": true,
-              "label": {
-                "en": "Checkbox label 1"
-              }
-            },
-            {
-              "id": "dropdown1",
-              "type": "dropdown",
-              "value": "choice2",
-              "label": {
-                "en": "Dropdown label 1"
-              },
-              "values": [
-                {
-                  "id": "choice1",
-                  "label": {
-                    "en": "Dropdown choice 1"
-                  }
-                },
-                {
-                  "id": "choice2",
-                  "label": {
-                    "en": "Dropdown choice 2"
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "oregon",
       "name": {
         "en": "oregon",
         "nl": "oregon"
       },
       "class": "sensor",
-      "capabilities": [ "meter_rain", "measure_temperature", "measure_humidity", "measure_rain", "measure_pressure", "measure_ultraviolet", "measure_battery" ],
+      "capabilities": [ "meter_rain", "measure_temperature", "measure_humidity", "measure_rain", "meter_rain", "measure_pressure", "measure_ultraviolet", "measure_battery" ],
       "images": {
         "large": "drivers/oregon/assets/images/large.jpg",
         "small": "drivers/oregon/assets/images/small.jpg"
@@ -602,6 +484,28 @@
               "hint": {
                 "en": "If needed, add an additional description to explain this setting."
               }
+            },
+            {
+              "id": "numberofchannels",
+              "type": "text",
+              "label": {
+                "en": "number of channels"
+              },
+              "value": "",
+              "hint": {
+                "en": "number of channels is number of devices which can be controlled "
+              }
+            },
+            {
+              "id": "address",
+              "type": "text",
+              "label": {
+                "en": "device address in sending"
+              },
+              "value": "",
+              "hint": {
+                "en": "the device address which is send to devices"
+              }
             }
           ]
         },
@@ -655,8 +559,170 @@
     }
 
 
-  ]
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "Received_X10_command",
+        "title": {
+          "en": "Recieved X10 command"
+        },
+        "args": [
+          {
+            "name": "houseCode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "A",
+                "label": { "en": "A" }
+              },
+              {
+                "id": "B",
+                "label": { "en": "B" }
+              },
+              {
+                "id": "C",
+                "label": { "en": "C" }
+              },
+              {
+                "id": "D",
+                "label": { "en": "D" }
+              },
+              {
+                "id": "E",
+                "label": { "en": "E" }
+              },
+              {
+                "id": "F",
+                "label": { "en": "F" }
+              },
+              {
+                "id": "G",
+                "label": { "en": "G" }
+              },
+              {
+                "id": "H",
+                "label": { "en": "H" }
+              },
+              {
+                "id": "I",
+                "label": { "en": "I" }
+              },
+              {
+                "id": "J",
+                "label": { "en": "J" }
+              },
+              {
+                "id": "K",
+                "label": { "en": "K" }
+              },
+              {
+                "id": "L",
+                "label": { "en": "L" }
+              },
+              {
+                "id": "M",
+                "label": { "en": "M" }
+              },
+              {
+                "id": "N",
+                "label": { "en": "N" }
+              },
+              {
+                "id": "O",
+                "label": { "en": "O" }
+              },
+              {
+                "id": "P",
+                "label": { "en": "P" }
+              }
+            ]
+          },
+          {
+            "name": "unitCode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "1",
+                "label": { "en": "1" }
+              },
+              {
+                "id": "2",
+                "label": { "en": "2" }
+              },
+              {
+                "id": "3",
+                "label": { "en": "3" }
+              },
+              {
+                "id": "4",
+                "label": { "en": "4" }
+              },
+              {
+                "id": "5",
+                "label": { "en": "5" }
+              },
+              {
+                "id": "6",
+                "label": { "en": "6" }
+              },
+              {
+                "id": "8",
+                "label": { "en": "8" }
+              },
+              {
+                "id": "9",
+                "label": { "en": "9" }
+              },
+              {
+                "id": "10",
+                "label": { "en": "10" }
+              },
+              {
+                "id": "11",
+                "label": { "en": "11" }
+              },
+              {
+                "id": "12",
+                "label": { "en": "12" }
+              },
+              {
+                "id": "13",
+                "label": { "en": "13" }
+              },
+              {
+                "id": "14",
+                "label": { "en": "14" }
+              },
+              {
+                "id": "15",
+                "label": { "en": "15" }
+              },
+              {
+                "id": "16",
+                "label": { "en": "16" }
+              }
+            ]
+          },
+          {
+            "name": "command",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "label": { "en": "on" }
+              },
+              {
+                "id": "off",
+                "label": { "en": "off" }
+              }
+            ]
+          }
 
+        ]
+      }
+    ]
+  }
 
 
 

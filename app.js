@@ -381,9 +381,10 @@ class rfxcomApp extends Homey.App {
                 rx: [], // { type: null, index: null } of rxtx where signals are received from for this device
                 tx: [], // { type: null, index: null } of rxtx where franes are send to for this device 
                 name: null,
-                capabilities: ["measure_rain", "measure_battery"],
+                capabilities: ["measure_rain", "meter_rain", "measure_battery"],
                 capability: {
                     measure_rain: 0,
+                    meter_rain: 0,
                     measure_battery: 0  // onoff dim temp etc as json  object of capabilities
                 },
                 icon: null,
