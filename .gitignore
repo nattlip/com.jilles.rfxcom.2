@@ -6,7 +6,7 @@ ehthumbs.db
 .gitignore
 package-lock.json
 
-
+.git
 
 
 
@@ -25,6 +25,8 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+.git/
 
 # Windows shortcuts
 *.lnk
