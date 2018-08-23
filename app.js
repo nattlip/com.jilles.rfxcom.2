@@ -24,7 +24,11 @@ class rfxcomApp extends Homey.App {
             [2, "RxTxLan"],
             [3, "TxLan"],
             [4, "RfxTrx"],
-            [5, "EldatPi"]
+            [5, "EldatPi"],
+            [6, "HomySignalX10"],
+            [7, "HomySignalOregon"],
+            [8, "PlugwiseSource"],
+            [9, "Proliphix"]
         ]
 
 
@@ -37,7 +41,10 @@ class rfxcomApp extends Homey.App {
             'TxLan',
             'RxTxLan',
             'RfxTrx',
-            "EldatPi"
+            "EldatPi",
+            "HomySignalX10",
+            "HomySignalOregon",
+            "Proliphix"
         ]
 
         // type

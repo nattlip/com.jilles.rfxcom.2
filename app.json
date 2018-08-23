@@ -13,6 +13,14 @@
     "lights",
     "appliances"
   ],
+
+  "bugs": {
+    "url": "https://github.com/nattlip/com.jilles.rfxcom.2/issues"
+  },
+
+  "athomForumDiscussionId": 3326,
+
+
   "version": "0.2.4",
   "compatibility": ">=1.5.0",
   "author": {
