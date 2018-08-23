@@ -1,4 +1,4 @@
-# Rfxcom
+﻿# Rfxcom
 
 Read and writes to Rfxcom devices
 
