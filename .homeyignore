@@ -2,3 +2,4 @@
 .homeyignore
 .gitignore
 package-lock.json
+.git/
