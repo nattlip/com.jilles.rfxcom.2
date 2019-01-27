@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+
+
+    <script type="text/javascript">
+
+        //window.onload = function () {
+
+
+            
+
+            let houseCode
+            let unitCode
+            let deviceType
+            let virtualDeviceClass
+
+            let selectHouseCodes = document.getElementById('selectHouseCodes')
+            let selectUnitCodes = document.getElementById('selectUnitCodes')
+            let selectDeviceTypes = document.getElementById('selectDeviceTypes')
+            let selectVirtualDeviceClasses = document.getElementById('selectVirtualDeviceClasses')
+
+
+            let alphabet = "abcdefghijklmnop".split("");
+            let alphabetCount = 16
+            console.log("hello");
+
+            let numbers = new Array(16); //create a 16 element array
+
+
+            //<option value="" disabled selected style="display:none;">Label</option>
+            selectHouseCodes.className = "button";
+            let zeroOption = new Option("HouseCode", "0");
+            selectHouseCodes.options[selectHouseCodes.options.length] = zeroOption;
+            for (let i = 1; i <= alphabetCount; i++) {
+                selectHouseCodes.options[selectHouseCodes.options.length] = new Option(alphabet[i - 1].toUpperCase(), alphabet[i - 1].toUpperCase());
+            }
+            selectHouseCodes.selectedIndex = 0;
+            selectHouseCodes.onchange = function () { saveHouseCode(); };
+
+
+            selectUnitCodes.className = "button";
+            let zeroOption2 = new Option("UnitCode", "0");
+            selectUnitCodes.options[selectUnitCodes.options.length] = zeroOption2;
+            for (let i = 1; i <= numbers.length; i++) {
+                selectUnitCodes.options[selectUnitCodes.options.length] = new Option(i.toString(), i.toString());
+            }
+            selectUnitCodes.selectedIndex = 0;
+            selectUnitCodes.onchange = function () { saveUnitCode() };
+
+
+            selectDeviceTypes.className = "button";
+            let zeroOption3 = new Option("deviceType", "0");
+            selectDeviceTypes.options[selectDeviceTypes.options.length] = zeroOption3;
+            selectDeviceTypes.selectedIndex = 0;
+            selectDeviceTypes.onchange = function () { saveDeviceType() };
+
+
+            selectVirtualDeviceClasses.className = "button";
+            let zeroOption4 = new Option("virtualDeviceClass", "0");
+            selectVirtualDeviceClasses.options[selectVirtualDeviceClasses.options.length] = zeroOption4;
+            selectVirtualDeviceClasses.selectedIndex = 0;
+            selectVirtualDeviceClasses.onchange = function () { saveVirtualDeviceClass() };
+
+
+
+            Homey.on('sendParametersTypes', data => {
+
+
+                console.log('data.sendParametersTypes', data.sendParametersTypes)
+
+                let types = data.sendParametersTypes
+
+
+
+                for (let i = 1; i <= types.length; i++) {
+                    selectDeviceTypes.options[selectDeviceTypes.options.length] = new Option(types[i - 1], types[i - 1]);
+                }
+
+
+            })
+
+            Homey.on('sendParametersVirtualDeviceClasses', data => {
+
+                console.log('data.sendParametersVirtualDeviceClasses', data.sendParametersVirtualDeviceClasses)
+
+                let VDClasses = data.sendParametersVirtualDeviceClasses
+
+
+                for (let i = 1; i <= VDClasses.length; i++) {
+                    selectVirtualDeviceClasses.options[selectVirtualDeviceClasses.options.length] = new Option(VDClasses[i - 1], VDClasses[i - 1]);
+                }
+
+
+
+            })
+
+            function saveHouseCode() {
+
+                Homey.emit('saveHouseCode', { "houseCode": selectHouseCodes[selectHouseCodes.selectedIndex].value });
+            }
+
+            function saveUnitCode() {
+                Homey.emit('saveUnitCode', { "unitCode": selectUnitCodes[selectUnitCodes.selectedIndex].value });
+
+            }
+
+            function saveDeviceType() {
+
+                console.log('saveDeviceType', selectDeviceTypes[selectDeviceTypes.selectedIndex].value)
+                Homey.emit('saveDeviceType', { "deviceType": selectDeviceTypes[selectDeviceTypes.selectedIndex].value });
+
+
+            }
+
+            function saveVirtualDeviceClass() {
+                console.log('saveVirtualDeviceClass', selectVirtualDeviceClasses[selectVirtualDeviceClasses.selectedIndex].value)
+                Homey.emit('saveVirtualDeviceClass', { "virtualDeviceClass": selectVirtualDeviceClasses[selectVirtualDeviceClasses.selectedIndex].value });
+
+
+            }
+
+            Homey.on('same', function () {
+
+                let sameX10Address = document.getElementById('sameX10Address');
+                sameX10Address.innerHTML = 'Already used houseCode and unitCode detected';
+            })
+
+
+            function next() {
+                console.log('nextbutton pressed')
+
+
+                let virtualDeviceClass = $('.deviceclasses-list input[name="deviceClass-dummy"]:checked');
+
+                Homey.emit('done', function (err, device) {
+                    if (virtualDeviceClass.length > 0) {
+                        device.virtualClass = $(virtualDeviceClass).val();
+                        device.virtualCapabilities = $(virtualDeviceClass).data('capabilities').split(',');
+                    }
+
+                    Homey.addDevice(device, function () {
+                        Homey.done();
+                    });
+                });
+
+
+                document.body.innerHTML = '<i class="loading fa fa-cog fa-spin"></i>'
+
+
+            }
+
+            Homey.setTitle("Choose the housecode and unitcode of X10 device");
+        //}  //windows onload
+
+
+    </script>
+
+
+
+
+
+</head>
+
+
+<body>
+
+    <div id='instruction' >Choose devicetype and virtualclass of X10 device </div>
+    <div> <br>  </div>
+
+    <select id="selectHouseCodes">
+        // here were options
+
+    </select>
+
+    <select id="selectUnitCodes">
+        // here were options
+
+    </select>
+
+    <select id="selectDeviceTypes">
+        // here were options
+
+    </select>
+
+    <select id="selectVirtualDeviceClasses">
+        // here were options
+
+    </select>
+
+    <div> <br>  </div>
+
+    <div id='sameX10Address'></div>
+
+    <button type="button" id="next" onclick="next()" style="position:absolute;bottom:0;right:0">NEXT</button>
+
+
+
+
+
+
+
+
+</body>
+
+
+
+
+</html>

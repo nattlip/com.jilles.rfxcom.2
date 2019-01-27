@@ -40,6 +40,9 @@ Read and writes to Rfxcom devices
 
 23-08-2018  added new forum link
 
+
+27-01-2018  made app Homey firmware V2 compliant, a lot changed in the pairing code V2 and icons still dont behave on android
+
 [![Paypal donate][pp-donate-image]][pp-donate-link]
 [pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=42UGL52J4KPZE
 [pp-donate-image]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif

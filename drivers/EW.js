@@ -1,12 +1,12 @@
 ﻿'use strict';
 
 const Homey = require('homey');
-const masterDriver = require('../lib/masterdriver/masterdriver.js')
+const masterDriver = require('../lib/masterdriver/masterdriver.js');
 
 const helpFunctions = require('../lib/helpFunctions.js').jan;
 const convert = require('../lib/baseConverter.js').jan.ConvertBase;
 const util = require('util');
-const Fdevice = require('../lib/filledDevice.js')
+const Fdevice = require('../lib/filledDevice.js');
 
 
 class EWDriver extends Homey.Driver {//extends masterDriver {
@@ -18,20 +18,20 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
 
 
 
-        this.answerToPairDeviceWithEW
+        this.answerToPairDeviceWithEW;
         this.devicesData = [];  // from drivers
         this.heardList = [];    // to be paired is list of devoicesdata. otherr device properties doesn matter
-        this.devices = this.getDevices()
+        this.devices = this.getDevices();                                                                                                 
         //this.log('devices from getdevices  ', util.inspect(this.devices,true,null))
-        this.log(' driver id  ', this.id)
+        this.log(' driver id  ', this.id); 
         // this.log(`${this.id} devices       ${util.inspect(this.devices)}    `)
 
         for (let device of this.devices) {
-            this.devicesData.push(device.getData())
+            this.devicesData.push(device.getData());
         }
-        this.log(`${this.id} devicesdata       ${util.inspect(this.devicesData)}    `)
+        this.log(`${this.id} devicesdata       ${util.inspect(this.devicesData)}    `); 
 
-        this.sendParameters = {}
+        this.sendParameters = {};
 
 
 
@@ -45,25 +45,64 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
 
     onPair(socket) {
 
-        this.log(`onpair entered`)
-        let command = ''
-        let houseCode = '2'
-        let unitCode = '2'
-        let type = 'EW'   // type of device eg visonicdoorsensor or ms13e
-        let protocol = 'EW'
-        let driver = this.id
-        let capabilities = []
-        this.log(`devices.length   ${this.devices.length}  `)
-        let channel = ''
+        this.log(`onpair entered`);
+        let command = '';
+        let houseCode = '2';
+        let unitCode = '2';
+        let type = 'EW';  // type of device eg visonicdoorsensor or ms13e
+        let protocol = 'EW';
+        let driver = this.id;
+        let capabilities = [];
+        this.log(`devices.length   ${this.devices.length}  `);
+        let channel = '';
         // keep it a string , a string must be send
 
+        let answerFromRx09 = '';
+        let message = { message: 'here i am' };
+
+        socket.showView('first');
+
+        
+
+        socket.on('showView', (viewId, callback) => {
+            callback();
+            this.log('viewId    ', viewId);
+            if (viewId === 'first') {
+                socket.emit('here', message);
+            }
+        });
+
+        socket.on('saveChannel', (data, callback) => {
 
 
 
+            let channelExist = "channel already exists";
+            let channelNotExists = "channel doesnt exist yet";
+
+            channel = data.channel;
+            this.log(`on save channel     ${util.inspect(data)}       `);
+            this.log(`channel to page =              ${channel}`);
+
+
+           // callback(null,{ "result" : "savechannel"});
+
+            
+            if (helpFunctions.containsChannel(this.devicesData, channel)) {
+
+                 callback(null,channelExist);
+
+            }
+            else {
+
+                 callback(null,channelNotExists);
+
+            }
 
 
 
+            
 
+        });
 
         // temp for testing
         // channel = '01'
@@ -71,40 +110,84 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
 
         // Homey.emit('sendUpCommand', { "command": 'up' });
 
-        socket.on('sendCommand', data => {
+        socket.on('sendCommand', (data,callback) => {
 
-            this.log("command received   ", data.command);
-            Homey.app.EWSignal.processSendCommand({ pair: true, 'channel': channel, 'command': data.command })
+           
+            this.log('entered socked on sendcommand');
+            this.log("command received   ", data);
+            //socket.showView('second');
+            Homey.app.EWSignal.processSendCommand({ pair: true, 'channel': channel, 'command': data.command });
+            callback(null, answerFromRx09);
+           
         });
 
-        socket.on('saveChannel', data => {
+        
 
-            this.log(`on save channel     ${util.inspect(data)}       `)
-            let message = {}
 
-            if (helpFunctions.containsChannel(this.devicesData, data.channel)) {
+        this.reportchanneltopage = () => {
 
-                socket.emit('same',message)
-                this.log(`socket emit same`)
-                channel = data.channel
+            
+
+            if (helpFunctions.containsChannel(this.devicesData, channel)) {
+                socket.on('showView', (viewId, callback) => {
+                    callback();
+                    this.log('viewId    ', viewId);
+                    if (viewId === 'first') {
+                        socket.emit('same', message);
+                    }
+                });
+
+                this.log(`socket emit same`);
+
 
             }
             else {
-                socket.emit('notSame',message)
-                this.log(`socket emit notsame`)
-                channel = data.channel
+                socket.on('showView', (viewId, callback) => {
+                    callback();
+                    this.log('viewId    ', viewId);
+                    if (viewId === 'first') {
+                        socket.emit('notSame', message);
+                    }
+                });
+                this.log(`socket emit notsame`);
+
             }
 
-
-        })
+        };
+       
 
 
 
         // called frm easywave decoding
         this.recieveAnswerToPair = (answer) => {
-            this.log(`this.recieveAnswerToPair answer   ${answer}    `)
-            socket.emit('pairAnswer', { "answer": answer });
-        }
+            this.log(`type of answer to  ${typeof answer} `);
+            this.log(`this.recieveAnswerToPair answer   ${answer}    `);
+            this.log(`answer === 'OK'  ${ answer.toString() === 'OK'}    `);
+
+
+            answerFromRx09 = answer;
+            
+                //this.log('answer is OK');
+                //socket.on('showView', (viewId, callback) => {
+                //    callback();
+                //    this.log('viewId    ', viewId);
+                //    if (viewId === 'first') {
+                //        socket.emit('pairAnswer', { answer: answer });
+                //    }
+                //});
+
+            
+
+
+
+
+
+            
+        };
+
+        
+
+
 
 
 
@@ -113,13 +196,13 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
 
 
 
-            if (Homey.app.rfxcomDeviceTypes[type] != null) {
+            if (Homey.app.rfxcomDeviceTypes[type] !== null) {
                 // Check the checksum before we start decoding
-                capabilities = Homey.app.rfxcomDeviceTypes[type].capabilities
-                protocol = Homey.app.rfxcomDeviceTypes[type].data.protocol
-
-                this.log(' capabilities ', util.inspect(capabilities))
-                this.log(' protocol ', util.inspect(protocol))
+                capabilities = Homey.app.rfxcomDeviceTypes[type].capabilities;
+                protocol = Homey.app.rfxcomDeviceTypes[type].data.protocol;
+                   
+                this.log(' capabilities ', util.inspect(capabilities));
+                this.log(' protocol ', util.inspect(protocol));
 
 
             }
@@ -133,11 +216,11 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
                 protocol: protocol,
                 type: type
 
-            }
+            };
 
-            let virtualDeviceClass = ``
+            let virtualDeviceClass = ``;
 
-            let filledDevice = new Fdevice(devicedata, driver, capabilities, virtualDeviceClass)
+            let filledDevice = new Fdevice(devicedata, driver, capabilities, virtualDeviceClass);
 
 
 
@@ -150,7 +233,7 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
 
             this.log(` ${driver} pair done this filledDevice `, util.inspect(filledDevice));
             this.log('drivr 174 add filledDevice.data.id ', filledDevice.data.id)
-
+                ;
 
             // this.log(`callback     ${util.inspect(callback,true,0)}`)
 
@@ -181,7 +264,7 @@ class EWDriver extends Homey.Driver {//extends masterDriver {
 
         socket.on('disconnect', function () {
 
-        })
+        });
 
 
     }

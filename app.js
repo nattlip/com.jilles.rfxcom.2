@@ -418,7 +418,7 @@ class rfxcomApp extends Homey.App {
             let tokens = {}
 
             if (result.command == true) { result.command = 'on' }  // 'on'  'off'
-            else if (result.command == false) { result.command = 'off' }
+            else if (result.command == false) { result.command = 'off';}
 
             let state = {
                 'houseCode': result.houseCode,

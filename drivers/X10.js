@@ -1,12 +1,12 @@
 ﻿'use strict';
 
 const Homey = require('homey');
-const masterDriver = require('../lib/masterdriver/masterdriver.js')
+const masterDriver = require('../lib/masterdriver/masterdriver.js');
 
 const helpFunctions = require('../lib/helpFunctions.js').jan;
 
 const util = require('util');
-const Fdevice = require('../lib/filledDevice.js')
+const Fdevice = require('../lib/filledDevice.js');
 
 class X10Driver extends Homey.Driver {//extends masterDriver {
 
@@ -206,8 +206,29 @@ makehtml();
           // socket.emit('pairHtml', this.send);
 
            // fir testing only
-           socket.emit('sendParametersTypes', { 'sendParametersTypes': this.sendParametersTypes });
-           socket.emit('sendParametersVirtualDeviceClasses', { 'sendParametersVirtualDeviceClasses': this.sendParametersVirtualDeviceClasses });
+
+
+           this.log('sendparameterstypes   ', this.sendParametersTypes)
+           this.log('sendParametersVirtualDeviceClasses  ', this.sendParametersVirtualDeviceClasses  )
+           socket.on('showView', (viewId, callback) => {
+               callback();
+               this.log('viewId    ', viewId);
+               if (viewId === 'choosex10') {
+                   socket.emit('sendParametersTypes', { 'sendParametersTypes': this.sendParametersTypes });
+                   socket.emit('sendParametersVirtualDeviceClasses', { 'sendParametersVirtualDeviceClasses': this.sendParametersVirtualDeviceClasses });
+               }
+           });
+
+
+
+
+
+
+
+
+
+
+         
 
            socket.on("saveUnitCode", data => {
 
@@ -264,7 +285,7 @@ makehtml();
 
               
 
-               if (Homey.app.rfxcomDeviceTypes[type] != null) {
+               if (Homey.app.rfxcomDeviceTypes[type] !== null) {
                    // Check the checksum before we start decoding
                    capabilities = Homey.app.rfxcomDeviceTypes[type].capabilities
                    protocol = Homey.app.rfxcomDeviceTypes[type].data.protocol

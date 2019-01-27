@@ -12,9 +12,9 @@
 <div id='text3'>Within 5 sec. Press short the up and then the down button of the to be learned rollershutter . he should go up and down as confirmation</div>
 
 <div id='text4'>Within 5 sec. Press then the pair button , the rollershutter should go up and down as confirmation </div>
-
+</br>
 <div id='text5'></div>
-
+</br>
 </br>
 
 
@@ -43,10 +43,17 @@
 
     //Homey.emit('press_button');
 
+    Homey.getOptions("first", (err, options) => { console.log(options.test1) })
+
+    Homey.getViewStoreValue("first", "test2 ", (err, id) => { console.log('getstorevalue ', id) })
 
     let errorMessage = document.getElementById('text5')
 
     let hexNumbers = new Array(64); //create a 16 element array
+
+
+    let same
+
 
 
     for (var i = 0; i < hexNumbers.length; i++) {
@@ -73,21 +80,49 @@
 
     function saveChannel() {
 
-        Homey.emit('saveChannel', { "channel": Channels[Channels.selectedIndex].value });
+        Homey.emit('saveChannel', { channel: Channels[Channels.selectedIndex].value }, (err, result) =>
+        {
+            console.log('callback on saveChannel result  '  , result.result)
+
+
+            if (result === "channel already exists") {
+                console.log('callback on saveChannel result  if channel exists    result', result)
+                errorMessage.innerHTML = 'Channel Already used , choose other message   ' ;
+            }
+
+            if (result === "channel doesnt exist yet") {
+                console.log('callback on saveChannel result  if channel doesnt exist exists    result  :', result)
+                errorMessage.innerHTML = 'Channel Not used';
+            }
+        }
+
+
+
+
+
+        );
         console.log('savechannel  channel ', Channels[Channels.selectedIndex].value)
 
 
     }
 
 
-    Homey.on('same',  (data) => {
+    Homey.on('here', (data) => {
 
-        errorMessage.innerHTML = 'Channel Already used , choose other';
+        console.log('starting pair session    ', data.message)
+        errorMessage.innerHTML = 'Here is staring EW with showview first messag  ' + data.message;
 
     })
 
-    Homey.on('notSame',  (data) => {
+    Homey.on('same', (data) => {
 
+        console.log('Channel Already used , choose other     messaga   ', data.message)
+        errorMessage.innerHTML = 'Channel Already used , choose other message   ' + data.message;
+
+    })
+
+    Homey.on('notSame', (data) => {
+        console.log('Here is         message   ', data.message)
         errorMessage.innerHTML = 'Channel Not used';
 
     })
@@ -95,9 +130,7 @@
 
 
 
-    let next = () => {
-        Homey.nextView()
-    }
+
 
 
     // https://developer.athom.com/docs/apps/tutorial-Drivers-Pairing-Custom%20Views.html
@@ -109,80 +142,25 @@
         // if react is ok then pair
 
 
-        Homey.emit('sendCommand', { "command": 'up' });
+        Homey.emit('sendCommand', { "command": 'up' }, (err, result) => {
+            console.log('callback on sendCommand  ', result)
 
 
-    }
-        //Homey.addDevice({
-        //    // the data object should contain only unique properties for the device. So a MAC address is good, an IP address is bad (can change over time)
-        //    data: {
-        //        id: 'ab:cd:ef'
-        //    },
 
-        //    // the name for this device,
-        //    name: 'My Device',
+            console.log('callback on Sendcommand   result', result);
+            errorMessage.innerHTML = ' Command send pairong starts ';
 
-        //    // initial settings (optional)
-        //    settings: { 'foo': 'bar' },
+            Homey.emit('done', function (err, device) {
 
-        //    // initial store
-        //    store: { 'x': 'y' }
-        //}, function (err, result) {
-        //    if (err) return Homey.alert(err);
-        //    Homey.done();
-        //});
-
-        Homey.on('pairAnswer', data => {
-
-           
-
-            console.log('answer entered')
-
-            if (data.answer = 'OK') {
-
-                console.log('answer entered if ok')
-
-                errorMessage.innerHTML = 'Received OK from Easywave transceiver';
-
-                Homey.emit('done', function (err, device) {
-
-                    Homey.addDevice(device, function () {
-                        Homey.done();
-                    });
+                Homey.addDevice(device, function () {
+                    Homey.done();
                 });
 
+            });
+        });
 
+    }
 
-            }
-            else {
-
-
-                errorMessage.innerHTML = 'Error from Rx09 try to pair again ';
-
-
-
-            }
-        })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   
-
-
-
-
-
-
+                                    
 
 </script>

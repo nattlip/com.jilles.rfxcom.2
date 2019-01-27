@@ -1,37 +1,71 @@
 
+<!doctype html>
 
-<div id='text'></div>
+<html>
+<head>
 
-<script type="text/javascript">
-//Homey.setTitle( __('pair.press_button.title') );
-
-    //Homey.emit('press_button');
-
-    let ip 
-    let rxPort
-    let txPort
-    let rfxComTypes
-    let rfxComType
-
-    let RfxComdeviceTypes = document.getElementById('selectRfxComType');
-    RfxComdeviceTypes.className = "button";
-    let zeroOption3 = new Option("deviceType", "0");
-    RfxComdeviceTypes.options[RfxComdeviceTypes.options.length] = zeroOption3;
-    RfxComdeviceTypes.selectedIndex = 0;
-    
-    
-    Homey.on('sendParametersTypes', data => {
-
-        let types = data.sendParametersTypes
+    <script type="text/javascript">
 
 
-
-        for (let i = 1; i <= types.length; i++) {
-            RfxComdeviceTypes.options[RfxComdeviceTypes.options.length] = new Option(types[i - 1], types[i - 1]);
-        }
+        Homey.setTitle("my 3 title");
 
         
-    })
+        //Homey.setTitle( __('pair.press_button.title') );
+
+        //Homey.emit('press_button');
+
+        let ip
+        let rxPort
+        let txPort
+        let rfxComTypes
+        let rfxComType
+
+        let RfxComdeviceTypes = document.getElementById('selectRfxComType');
+        RfxComdeviceTypes.className = "button";
+        let zeroOption3 = new Option("deviceType", "0");
+        RfxComdeviceTypes.options[RfxComdeviceTypes.options.length] = zeroOption3;
+        RfxComdeviceTypes.selectedIndex = 0;
+
+        Homey.on('sendParametersTypes', data => {
+
+            let types = data.sendParametersTypes
+
+            //Homey.alert('send parametertypes arrived')
+
+            console.log('sendparametertypes    ' + types)
+
+            for (let i = 1; i <= types.length; i++) {
+                RfxComdeviceTypes.options[RfxComdeviceTypes.options.length] = new Option(types[i - 1], types[i - 1]);
+            }
+
+
+        })
+        
+
+        //Homey.emit('start', { 'jan': 'piet' }, (err, result) => {
+        //   // Homey.alert(result); // result is Started start!
+        //});
+
+
+        //Homey.emit('test', { 'jan': 'piet' }, (err, result) => {
+        //   // Homey.alert(result); // result is Started start!
+        //});
+
+
+
+        //Homey.on('hello', message => {
+        //   // Homey.alert(message); // Hello to you!
+
+        //});
+
+
+
+
+
+
+        //Homey.on('noserver', () => {
+        //    document.getElementById('text').innerHTML = '<h2>First set rfxTrx variables in settings rfxTrx</h2>';
+        //});
 
 
 
@@ -39,124 +73,115 @@
 
 
 
+        function save() {
+            console.log("saving")
+            ip = document.getElementById('ip').value;
+            rxPort = document.getElementById('rxPort').value
+            txPort = document.getElementById('txPort').value
+            rfxComTypes = document.getElementById('selectRfxComType')
+            rfxComType = rfxComTypes[rfxComTypes.selectedIndex].value
 
+            console.log("ip  ", ip)
+            console.log("rxPort  ", rxPort)
+            console.log("txPort  ", txPort)
+            console.log("rfxComType  ", rfxComType)
 
-
-
-    Homey.on('noserver', function () {
-        document.getElementById('text').innerHTML  = '<h2>First set rfxTrx variables in settings rfxTrx</h2>';
-    });
-
-    Homey.emit('start', { 'foo': 'bar' }, function (err, result) {
-        console.log(result); // result is Started!
-    });
-
-   
-
-
-
-    function save() {
-        console.log("saving")
-        ip = document.getElementById('ip').value;        
-        rxPort = document.getElementById('rxPort').value
-        txPort = document.getElementById('txPort').value
-        rfxComTypes = document.getElementById('selectRfxComType')
-        rfxComType = rfxComTypes[rfxComTypes.selectedIndex].value
-
-        console.log("ip  ",ip)
-        console.log("rxPort  ", rxPort)
-        console.log("txPort  ", txPort)
-        console.log("rfxComType  ", rfxComType)
-
-        if (rfxComType !== "EldatPi") {
-            Homey.addDevice({
-                data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
-                    id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+            if (rfxComType !== "EldatPi") {
+                Homey.addDevice({
+                    data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+                        id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                    },
+                    name: 'My ' + rfxComType,// the name for this device (optional),
+                    settings: {
+                        'ip': ip,
+                        'rxPort': rxPort,
+                        'txPort': txPort,
+                        'rfxComType': rfxComType
+                    }// initial settings (optional)
                 },
-                name: 'My ' + rfxComType,// the name for this device (optional),
-                settings: {
-                    'ip': ip,
-                    'rxPort': rxPort,
-                    'txPort': txPort,
-                    'rfxComType': rfxComType
-                }// initial settings (optional)
-            },
-                function (err, result) {
-                    if (err) return console.error(err);
-                    Homey.done();
-                }
+                    function (err, result) {
+                        if (err) return console.error(err);
+                        Homey.done();
+                    }
 
-            );
-        }
-        else {
-            console.log("rfxComType interedc if eldat  ", rfxComType)
-            Homey.addDevice({
-                
-                data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
-                    id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                );
+            }
+            else {
+                console.log("rfxComType interedc if eldat  ", rfxComType)
+                Homey.addDevice({
+
+                    data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
+                        id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                    },
+                    name: 'My ' + rfxComType,// the name for this device (optional),
+                    settings: {
+                        'ip': ip,
+                        'rxPort': rxPort,
+                        'txPort': txPort,
+                        'rfxComType': rfxComType,
+                        'numberofchannels': '64',
+                        'address': 0x09ab.toString(16)
+                    }// initial settings (optional)
                 },
-                name: 'My ' + rfxComType,// the name for this device (optional),
-                settings: {
-                    'ip': ip,
-                    'rxPort': rxPort,
-                    'txPort': txPort,
-                    'rfxComType': rfxComType,
-                    'numberofchannels': 64,
-                    'address' : 0x09ab.toString(16)
-                 }// initial settings (optional)
-            },
-                function (err, result) {
-                    if (err) return console.error(err);
-                    Homey.done();
-                }
+                    function (err, result) {
+                        if (err) return console.error(err);
+                        Homey.done();
+                    }
 
-            );
+                );
+            }
+
+
+
+
+
         }
 
 
 
 
 
-    }
-
-    
+    </script>
 
 
 
-</script>
+</head>
+
+<body>
+    <!--<div id='text'></div>-->
 
 
-<h1>RfxTrx Settings Page</h1>
-<p>set host ip and rx and tx port </p>
+    <h1>RfxTrx Settings Page</h1>
+    <p>set host ip and rx and tx port </p>
 
 
 
-<fieldset>
-    <legend>rfxCom  variables</legend>
+    <fieldset>
+        <legend>rfxCom  variables</legend>
 
-    <div class='field row'>
-        <label for='ip'>ipaddress  rfxCom</label>
-        <input id='ip' type='text' value='' />
-    </div>
+        <div class='field row'>
+            <label for='ip'>ipaddress  rfxCom</label>
+            <input id='ip' type='text' value='' />
+        </div>
 
-    <div class='field row'>
-        <label for='rxPort'>Rx port</label>
-        <input id='rxPort' type='text' value='' />
-    </div>
+        <div class='field row'>
+            <label for='rxPort'>Rx port</label>
+            <input id='rxPort' type='text' value='' />
+        </div>
 
-    <div class='field row'>
-        <label for='txPort'>Tx port</label>
-        <input id='txPort' type='text' value='' />
-    </div>
+        <div class='field row'>
+            <label for='txPort'>Tx port</label>
+            <input id='txPort' type='text' value='' />
+        </div>
 
 
-    <div class='field row'>
-        <label for='selectRfxComType'>select rfxComType</label>
-        <select id="selectRfxComType">
-           // here were options
+        <div class='field row'>
+            <label for='selectRfxComType'>select rfxComType</label>
+            <select id="selectRfxComType">
+                // here were options
 
-</select>
-    </div>
+            </select>
+        </div>
 
         <div class='field row'>
             <label for='test'>servertested</label>
@@ -188,10 +213,19 @@
         </div>-->
 
 
-</fieldset>
+    </fieldset>
 
-<button class='right' onclick='save()'> Pair  </button>
+    <button class='right' onclick='save()'> Pair  </button>
+
+
+   
 
 
 
+
+
+
+
+</body>
+</html>
 

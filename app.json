@@ -18,12 +18,16 @@
     "url": "https://github.com/nattlip/com.jilles.rfxcom.2/issues"
   },
 
-  "athomForumDiscussionId": 3326,
-
+  
   "homeyCommunityTopicId": 143,
 
-  "version": "0.2.5",
-  "compatibility": ">=1.5.0",
+  "tags": {
+    "en": [ "weather" ],
+    "nl": [ "weer" ]
+  },
+
+  "version": "0.2.6",
+  "compatibility": ">=2.0.0",
   "author": {
     "name": "Jilles Miedema",
     "email": "nattelip@hotmail.com"
@@ -81,42 +85,57 @@
       "pair": [
         {
           "id": "first",
-          "navigation": {
-            "next": "second"
+          "options": {
+            "test1": "this is test one",
+            "test2": "this is test two",
+            "title": "rf.pair.imitate.title.ABST-604"
           }
         },
         {
           "id": "second",
-          "navigation": {
-            "next": "third"
+          "options": {
+            "test1": "this is test one",
+            "test2": "this is test two",
+            "title": "rf.pair.imitate.title.ABST-604"
           }
+
+
+
         },
         {
-          "id": "third"
+          "id": "third",
+          "options": {
+            "test1": "this is test one",
+            "test2": "this is test two",
+            "title": "rf.pair.imitate.title.ABST-604"
+          }
+
+
+
         }
       ],
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "Device Information"
-          },
-          "children": [
+          "settings": [
             {
-              "id": "id",
-              "type": "label",
+              "type": "group",
               "label": {
-                "en": "device id"
+                "en": "Device Information"
               },
-              "value": "",
-              "hint": {
-                "en": "device id "
-              }
+              "children": [
+                {
+                  "id": "id",
+                  "type": "label",
+                  "label": {
+                    "en": "device id"
+                  },
+                  "value": "",
+                  "hint": {
+                    "en": "device id "
+                  }
+                }
+              ]
             }
           ]
-        }
-      ]
-    },
+        },
     {
       "id": "X10",
       "name": {
@@ -132,13 +151,9 @@
       "pair": [
 
         {
-          "id": "showoptions"
+          "id": "choosex10"
 
-        },
-        {
-          "id": "choose_slave",
-          "template": "choose_slave"
-        }
+        }      
       ]
     },
     {
