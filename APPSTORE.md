@@ -45,6 +45,10 @@ Read and writes to Rfxcom devices
 
 28-01-2019  fixed a bug in socketclient
 
+23-02-2019  fixed that not more then one usb device could be reached on a Rapberry pi, now multiple connections are possible with pi,
+			or an ip in general (usefull in portforwarding)
+
+
 [![Paypal donate][pp-donate-image]][pp-donate-link]
 [pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=42UGL52J4KPZE
 [pp-donate-image]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif

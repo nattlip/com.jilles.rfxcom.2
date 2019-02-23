@@ -22,11 +22,11 @@
   "homeyCommunityTopicId": 143,
 
   "tags": {
-    "en": [ "weather" ],
-    "nl": [ "weer" ]
+    "en": [ "weather" , "Easywave", "faak", "altron" ,"X10" ,"transmitters", "X10", "oregon", "visonic", "rfxtrx", "rfxcom"],
+    "nl": [ "weer", "Easywave", "faak", "altron", "X10", "transmitters", "X10", "oregon", "visonic", "rfxtrx", "rfxcom" ]
   },
 
-  "version": "0.2.9",
+  "version": "0.2.10",
   "compatibility": ">=2.0.0",
   "author": {
     "name": "Jilles Miedema",
@@ -67,7 +67,7 @@
         "en": "EW",
         "nl": "EW"
       },
-      "class": "other",
+      "class": "blinds",
       "capabilities": [
         "windowcoverings_state",
         "windowcoverings_tilt_up",
@@ -114,28 +114,28 @@
 
         }
       ],
-          "settings": [
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Device Information"
+          },
+          "children": [
             {
-              "type": "group",
+              "id": "id",
+              "type": "label",
               "label": {
-                "en": "Device Information"
+                "en": "device id"
               },
-              "children": [
-                {
-                  "id": "id",
-                  "type": "label",
-                  "label": {
-                    "en": "device id"
-                  },
-                  "value": "",
-                  "hint": {
-                    "en": "device id "
-                  }
-                }
-              ]
+              "value": "",
+              "hint": {
+                "en": "device id "
+              }
             }
           ]
-        },
+        }
+      ]
+    },
     {
       "id": "X10",
       "name": {
@@ -350,7 +350,7 @@
         {
           "type": "group",
           "label": {
-            "en": "Update Information "
+            "en": "Update Information"
           },
           "children": [
             {

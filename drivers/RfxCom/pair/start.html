@@ -7,7 +7,7 @@
     <script type="text/javascript">
 
 
-        Homey.setTitle("my 3 title");
+        Homey.setTitle("pair rfxcom transmitter");
 
         
         //Homey.setTitle( __('pair.press_button.title') );
@@ -89,7 +89,7 @@
             if (rfxComType !== "EldatPi") {
                 Homey.addDevice({
                     data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
-                        id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                        id: rfxComType + ip + rxPort // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
                     },
                     name: 'My ' + rfxComType,// the name for this device (optional),
                     settings: {
@@ -107,11 +107,12 @@
                 );
             }
             else {
-                console.log("rfxComType interedc if eldat  ", rfxComType)
+                console.log("rfxComType entered if eldat  ", rfxComType)
                 Homey.addDevice({
 
                     data: { // this data object is saved to- and unique for the device. It is passed on the get and set functions as 1st argument
-                        id: ip // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                        id: rfxComType +ip + rxPort // something unique, so your driver knows which physical device it is. A MAC address or Node ID, for example. This is required
+                                        // added rxport for more devices on a sigle pi
                     },
                     name: 'My ' + rfxComType,// the name for this device (optional),
                     settings: {
