@@ -52,6 +52,9 @@ Read and writes to Rfxcom devices
 		   but rfxtrx receives the commands.
 
 
+## Donate
+If you like the app, consider buying me a Homey!  
 [![Paypal donate][pp-donate-image]][pp-donate-link]
-[pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=42UGL52J4KPZE
-[pp-donate-image]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
+
+[pp-donate-link]: https://www.paypal.me/nattelip
+[pp-donate-image]: https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png

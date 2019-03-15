@@ -18,11 +18,24 @@
     "url": "https://github.com/nattlip/com.jilles.rfxcom.2/issues"
   },
 
-  
+
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "nattelip"
+      }
+    }
+  },
+
+
+
+
+
+
   "homeyCommunityTopicId": 143,
 
   "tags": {
-    "en": [ "weather" , "Easywave", "faak", "altron" ,"X10" ,"transmitters", "X10", "oregon", "visonic", "rfxtrx", "rfxcom"],
+    "en": [ "weather", "Easywave", "faak", "altron", "X10", "transmitters", "X10", "oregon", "visonic", "rfxtrx", "rfxcom" ],
     "nl": [ "weer", "Easywave", "faak", "altron", "X10", "transmitters", "X10", "oregon", "visonic", "rfxtrx", "rfxcom" ]
   },
 
@@ -153,7 +166,7 @@
         {
           "id": "choosex10"
 
-        }      
+        }
       ]
     },
     {
