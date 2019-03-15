@@ -48,6 +48,9 @@ Read and writes to Rfxcom devices
 23-02-2019  fixed that not more then one usb device could be reached on a Rapberry pi, now multiple connections are possible with pi,
 			or an ip in general (usefull in portforwarding)
 
+15-03-2019 fixed two bugs which could led to crashes, receiving a somfy signal and adding remotes for somfys, somfy is not implemented in app ,
+		   but rfxtrx receives the commands.
+
 
 [![Paypal donate][pp-donate-image]][pp-donate-link]
 [pp-donate-link]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=42UGL52J4KPZE
