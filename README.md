@@ -52,8 +52,10 @@ Read and writes to Rfxcom devices
 
 
 ## Donate
+
 If you like the app, consider buying me a Homey!  
 [![Paypal donate][pp-donate-image]][pp-donate-link]
 
 [pp-donate-link]: https://www.paypal.me/nattelip
 [pp-donate-image]: https://www.paypalobjects.com/webstatic/en_US/i/btn/png/btn_donate_92x26.png
+=======
