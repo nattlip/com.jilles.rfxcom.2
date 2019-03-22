@@ -39,7 +39,7 @@
     "nl": [ "weer", "Easywave", "faak", "altron", "X10", "transmitters", "X10", "oregon", "visonic", "rfxtrx", "rfxcom" ]
   },
 
-  "version": "0.2.11",
+  "version": "0.2.12",
   "compatibility": ">=2.0.0",
   "author": {
     "name": "Jilles Miedema",

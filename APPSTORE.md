@@ -51,9 +51,13 @@ Read and writes to Rfxcom devices
 15-03-2019 fixed two bugs which could led to crashes, receiving a somfy signal and adding remotes for somfys, somfy is not implemented in app ,
 		   but rfxtrx receives the commands.
 
+22-03-2019 fixed  bug which could led to crashes, receiving a somfy signal and adding remotes for somfys, somfy is not implemented in app ,
+		   but rfxtrx receives the commands.
+
+
 
 ## Donate
-If you like the app, consider buying me a Homey!  
+If you like the app, consider buying me a Homey Pro !  
 [![Paypal donate][pp-donate-image]][pp-donate-link]
 
 [pp-donate-link]: https://www.paypal.me/nattelip
